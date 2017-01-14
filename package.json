@@ -1,5 +1,5 @@
 {
-  "name": "screeps1",
+  "name": "screepsScript",
   "version": "0.0.1",
   "description": "screeps script",
   "main": "main.js",
@@ -16,7 +16,7 @@
   "author": "toolchild",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/toolchild/screeps/issues"
+    "url": "https://github.com/toolchild/screepsScript/issues"
   },
-  "homepage": "https://github.com/toolchild/screeps#readme"
+  "homepage": "https://github.com/toolchild/screepsScript#readme"
 }
