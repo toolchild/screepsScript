@@ -22,8 +22,8 @@ const settings = {
   NUM_Up550: 3,
   NUM_Up750: 5,
   
-  NUM_DH800: 1,
-  NUM_Cl100: 1,
+  NUM_DH800: 0,
+  NUM_Cl100: 0,
   
   WALL_REPAIR_PER_ONE: 0.0001, // 0,0001 = 30k
   RAMPART_REPAIR_VALUE: 30000, // changes with controller level

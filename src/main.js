@@ -11,7 +11,7 @@ const settings = require('settings');
 const consts = require('constants');
 const statsConsole = require("statsConsole");
 
-const targetRoom = '';
+let targetRoom = 'E73N89';
 
 const memoryNeedsUpdate = false;
 
@@ -94,7 +94,6 @@ module.exports.loop = function () {
   // statsConsole.log('\tCPU loop:', value.toFixed(1) + ' of: ' + Game.cpu.tickLimit + ' which is: ' + (value / Game.cpu.tickLimit * 100).toFixed(1) + '% ' +
   //   'and: ' + (value / Game.cpu.limit * 100).toFixed(1) + '% of the limit: ' + Game.cpu.limit + ' of: ' + Game.cpu.bucket);
   
-  
 };
 
 const fillMemory = () => {
@@ -161,6 +160,9 @@ const logStats = function () {
     + ' cl100:' + cl100.length + '/' + numCl100
     + ' dH800:' + dH800.length + '/' + numDH800
   );
+  if (Game.spawns['Spawn1'].spawning) {
+    statsConsole.log('base: spawning: ' + Game.spawns['Spawn1'].spawning.name);
+  }
   
   // statsConsole.log('home:  ' + Memory.home.room.find(FIND_SOURCES) + ' roomSources: ' + Memory.home.roomSources);
   
@@ -320,11 +322,11 @@ const spawnUpgraders = (spawnError) => {
   return spawnError;
 };
 
-const spawnCreep = function (body, role, name, targetRoom) {
+const spawnCreep = function (body, role, name, targetRoomName) {
   return Game.spawns['Spawn1'].createCreep(body, name + '-' + Math.floor(Math.random() * 100), {
     auto: true,
     role: role,
-    targetRoomName: targetRoom,
+    targetRoomName: targetRoomName,
     home: Memory.home
   });
 };
@@ -358,7 +360,7 @@ const handleCreeps = function () {
 };
 
 const handleSpawnError = function (spawnError, role) {
-  if (role != null) {
+  if (role != null && spawnError.name && spawnError.name.startsWith(role)) {
     switch (spawnError) {
       case ERR_BUSY: {
         statsConsole.log('main: ' + role + ' cannot spawn because spawn is busy')
@@ -379,7 +381,7 @@ const handleSpawnError = function (spawnError, role) {
 const handleStats = () => {
   // sample data format ["Name for Stat", variableForStat]
   let myStats = [
-    // ["c1300", c1300]
+    ["c1300", c1300.length]
     // ["Towers", towersCPUUsage],
     // ["Links", linksCPUUsage],
     // ["Setup Roles", SetupRolesCPUUsage],

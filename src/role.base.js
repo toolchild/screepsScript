@@ -44,8 +44,11 @@ const roleBase = {
   willGoTargetRoom(){
     if (this.creep.room.name != this.creep.memory.targetRoomName) {
       let exit = this.creep.room.findExitTo(this.creep.memory.targetRoomName);
-      // statsConsole.log('base: ' + this.creep.name + ' go to target: ' + exit);
-      this.creep.moveTo(this.creep.pos.findClosestByPath(exit));
+      statsConsole.log('base: ' + this.creep.name + ' go to exit: ' + exit + ' to: ' + this.creep.memory.targetRoomName);
+      let moveError = this.creep.moveTo(this.creep.pos.findClosestByPath(exit));
+      if (moveError != OK) {
+        this.handleMoveErrorCollect(moveError);
+      }
       return true;
     } else {
       return false;
@@ -225,11 +228,11 @@ const roleBase = {
         break;
       }
       case -7: {
-        // statsConsole.log('base: ' + this.creep.name + ' invalid target');
+        statsConsole.log('base: ' + this.creep.name + ' invalid target');
         break;
       }
       default : {
-        // statsConsole.log('base: ' + this.creep.name + ' moveError: ' + moveError);
+        statsConsole.log('base: ' + this.creep.name + ' moveError: ' + moveError);
         // statsConsole.log('base: ' + this.creep.name + ' targetIndex: ' + this.creep.memory.targetIndex + ' prioTargetIndex is null: ' + (prioTargetIndex == null));
         this.creep.memory.targetIndex = prioTargetIndex == null ? this.creep.memory.targetIndex + 1 : this.creep.memory.targetIndex - 1;
         if (this.creep.memory.targetIndex > this.sources.length || this.creep.memory.targetIndex < 0) {
