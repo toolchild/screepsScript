@@ -1,7 +1,6 @@
 var taskManager = require('task-manager');
 var statsConsole = require("statsConsole");
 
-
 const roleBase = {
   wallRepairPerOne: 0.0001, // 0,0001 = 30k
   creep: null, sources: null, droppedSources: null,
@@ -45,7 +44,7 @@ const roleBase = {
   willGoTargetRoom(){
     if (this.creep.room.name != this.creep.memory.targetRoomName) {
       let exit = this.creep.room.findExitTo(this.creep.memory.targetRoomName);
-      statsConsole.log('loot: ' + this.creep.name + ' go to target: ' + exit);
+      // statsConsole.log('base: ' + this.creep.name + ' go to target: ' + exit);
       this.creep.moveTo(this.creep.pos.findClosestByPath(exit));
       return true;
     } else {
@@ -91,7 +90,7 @@ const roleBase = {
         // statsConsole.log('base: ' + this.creep.name + ' gathering');
       }
     } else {
-      var log = 'base: ' + this.creep.name + ' found no droppedSources to collect';
+      // var log = 'base: ' + this.creep.name + ' found no droppedSources to collect';
       let bufferStructures = this.findBufferStructures();
       // statsConsole.log(bufferStructures)
       let containers = _.filter(bufferStructures, structure => structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > this.creep.carryCapacity / 2);
@@ -109,7 +108,7 @@ const roleBase = {
     }
     
     if (this.creep.carry.energy > 0) {
-      log += (' switch to busy');
+      // log += (' switch to busy');
       this.creep.memory.isBusy = true;
     }
     // statsConsole.log(log);
@@ -125,10 +124,10 @@ const roleBase = {
           this.handleMoveErrorCollect(moveError);
         }
       } else {
-        statsConsole.log('base: ' + this.creep.name + ' gathering');
+        // statsConsole.log('base: ' + this.creep.name + ' gathering');
       }
     } else {
-      let log = 'base: ' + this.creep.name + ' found no droppedSources to collect';
+      // let log = 'base: ' + this.creep.name + ' found no droppedSources to collect';
       if (this.creep.carry.energy > 0) {
         log += (' switch to busy');
         this.creep.memory.isBusy = true;
@@ -205,7 +204,7 @@ const roleBase = {
       }
     });
     
-    statsConsole.log('base: ' + this.creep.name + " closest Target:" + closestDamagedStructure);
+    // statsConsole.log('base: ' + this.creep.name + " closest Target:" + closestDamagedStructure);
     if (closestDamagedStructure) {
       if (this.creep.repair(closestDamagedStructure) == ERR_NOT_IN_RANGE) {
         this.creep.moveTo(closestDamagedStructure)
@@ -218,27 +217,27 @@ const roleBase = {
   handleMoveError(moveError, prioTargetIndex){
     switch (moveError) {
       case -11: { // tired
-        statsConsole.log('base: ' + this.creep.name + ' is tired.');
+        // statsConsole.log('base: ' + this.creep.name + ' is tired.');
         break;
       }
       case -4: { // spawning
-        statsConsole.log('base: ' + this.creep.name + ' is spawning.');
+        // statsConsole.log('base: ' + this.creep.name + ' is spawning.');
         break;
       }
       case -7: {
-        statsConsole.log('base: ' + this.creep.name + ' invalid target');
+        // statsConsole.log('base: ' + this.creep.name + ' invalid target');
         break;
       }
       default : {
-        statsConsole.log('base: ' + this.creep.name + ' moveError: ' + moveError);
-        statsConsole.log('base: ' + this.creep.name + ' targetIndex: ' + this.creep.memory.targetIndex + ' prioTargetIndex is null: ' + (prioTargetIndex == null));
+        // statsConsole.log('base: ' + this.creep.name + ' moveError: ' + moveError);
+        // statsConsole.log('base: ' + this.creep.name + ' targetIndex: ' + this.creep.memory.targetIndex + ' prioTargetIndex is null: ' + (prioTargetIndex == null));
         this.creep.memory.targetIndex = prioTargetIndex == null ? this.creep.memory.targetIndex + 1 : this.creep.memory.targetIndex - 1;
         if (this.creep.memory.targetIndex > this.sources.length || this.creep.memory.targetIndex < 0) {
           this.creep.memory.targetIndex = null;
           // statsConsole.log('base: ' + this.creep.name + ' targetIndex reset');
           
         } else {
-          statsConsole.log('base: ' + this.creep.name + ' targetIndex changed: ' + this.creep.memory.targetIndex + ' source: ' + this.sources[this.creep.memory.targetIndex]);
+          // statsConsole.log('base: ' + this.creep.name + ' targetIndex changed: ' + this.creep.memory.targetIndex + ' source: ' + this.sources[this.creep.memory.targetIndex]);
         }
       }
     }
@@ -247,11 +246,11 @@ const roleBase = {
   handleMoveErrorCollect(moveError){
     switch (moveError) {
       case -11: { // tired
-        statsConsole.log('base: ' + this.creep.name + ' is tired.');
+        // statsConsole.log('base: ' + this.creep.name + ' is tired.');
         break;
       }
       case -4: { // spawning
-        statsConsole.log('base: ' + this.creep.name + ' is spawning.');
+        // statsConsole.log('base: ' + this.creep.name + ' is spawning.');
         break;
       }
       case -7: {
@@ -259,13 +258,13 @@ const roleBase = {
         break;
       }
       default : {
-        statsConsole.log('base: ' + this.creep.name + ' moveError: ' + moveError);
+        // statsConsole.log('base: ' + this.creep.name + ' moveError: ' + moveError);
         if (this.creep.memory.targetIndex > this.droppedSources.length) {
           this.creep.memory.targetIndex = null;
-          statsConsole.log('base: ' + this.creep.name + ' targetIndex reset');
+          // statsConsole.log('base: ' + this.creep.name + ' targetIndex reset');
           
         } else {
-          statsConsole.log('base: ' + this.creep.name + ' targetIndex changed: ' + this.droppedSources[this.creep.memory.targetIndex]);
+          // statsConsole.log('base: ' + this.creep.name + ' targetIndex changed: ' + this.droppedSources[this.creep.memory.targetIndex]);
         }
       }
     }
@@ -279,39 +278,34 @@ const roleBase = {
         this.creep.moveTo(closestTarget);
       }
     } else {
-      // statsConsole.log('base : ' + this.creep.name + ' targets : ' + targets);
       let creep = this.creep;
       let closestTarget = this.creep.pos.findClosestByRange(targets, {
         filter: (target) => {
-          // statsConsole.log('base: ' + creep.name + ' target ' + target);
           return (target.structureType == STRUCTURE_TOWER && taskManager.towerNeedsEnergy(creep));
         }
       });
-      statsConsole.log('base: ' + creep.name + ' closestTower ' + closestTarget);
       
       if (!closestTarget) {
         targets.push(this.creep.room.storage);
         let creep = this.creep;
         closestTarget = this.creep.pos.findClosestByRange(targets, {
           filter: function (target) {
-            // statsConsole.log('base: ' + creep.name + ' target ' + target);
             return (target.structureType == STRUCTURE_STORAGE && taskManager.storageNeedsEnergy(creep));
           }
         });
       }
       if (this.creep.transfer(closestTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
         this.creep.moveTo(closestTarget);
-      } // statsConsole.log('base: ' + this.creep.name + " closestTarget: " + closestTarget)
+      }
     }
   },
   
   findBufferStructures(){
-    let targets = this.creep.room.find(FIND_STRUCTURES, {
+    return this.creep.room.find(FIND_STRUCTURES, {
       filter: (structure) => {
         return (structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_CONTAINER) && (structure.energy > 0 || structure.store[RESOURCE_ENERGY] > 0);
       }
     });
-    return targets;
   }
   
 };

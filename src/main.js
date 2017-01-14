@@ -9,6 +9,7 @@ const roleRepairer = require('role.repairer');
 const roleTower = require('role.tower');
 const settings = require('settings');
 const consts = require('constants');
+const statsConsole = require("statsConsole");
 
 const targetRoom = '';
 
@@ -70,52 +71,29 @@ const tower2 = Game.getObjectById('58791fd9fcfae81e151c2793');
 
 module.exports.loop = function () {
   
-  // let loopCPUStart = Game.cpu.getUsed();
+  // statsConsole.warn('warning');
+  
+  let loopCPUStart = Game.cpu.getUsed();
   //
   // var stringified = JSON.stringify(Memory);
   // var startCpu = Game.cpu.getUsed();
   // JSON.parse(stringified);
   // var value = Game.cpu.getUsed() - startCpu;
   // statsConsole.log('CPU parse:', value + ' of: ' + Game.cpu.tickLimit + ' which is: ' + value / Game.cpu.tickLimit * 100 + '% and: ' + value / Game.cpu.limit * 100 +'% of the limit: ' + Game.cpu.limit);
-  
   fillMemory();
   prepareCreepsAmounts();
-  // logStats();
+  logStats();
   clearMemory();
   respawnCreeps();
   roleTower.run(tower1);
   roleTower.run(tower2);
   handleCreeps();
   
-  // let value = Game.cpu.getUsed() - loopCPUStart;
+  handleStats();
+  // let totalTime= Game.cpu.getUsed() - loopCPUStart;
   // statsConsole.log('\tCPU loop:', value.toFixed(1) + ' of: ' + Game.cpu.tickLimit + ' which is: ' + (value / Game.cpu.tickLimit * 100).toFixed(1) + '% ' +
   //   'and: ' + (value / Game.cpu.limit * 100).toFixed(1) + '% of the limit: ' + Game.cpu.limit + ' of: ' + Game.cpu.bucket);
   
-  var statsConsole = require("statsConsole");
-  // sample data format ["Name for Stat", variableForStat]
-  let myStats = [
-    // ["c1300", 5],
-    // ["Towers", towersCPUUsage],
-    // ["Links", linksCPUUsage],
-    // ["Setup Roles", SetupRolesCPUUsage],
-    // ["Creeps", CreepsCPUUsage],
-    // ["Init", initCPUUsage],
-    // ["Stats", statsCPUUsage],
-    // ["Total", totalCPUUsage]
-  ];
-  
-  statsConsole.run(myStats); // Run Stats collection
-  // if (totalTime > Game.cpu.limit) {
-  //   statsConsole.log("Tick: " + Game.time + "  CPU OVERRUN: " + Game.cpu.getUsed().toFixed(2) + "  Bucket:" + Game.cpu.bucket, 5);
-  // }
-  if ((Game.time % 5) === 0) {
-    console.log(statsConsole.displayHistogram());
-    console.log(statsConsole.displayStats());
-    //console.log(statsConsole.displayMaps()); // Don't use as it will consume ~30-40 CPU
-    // totalTime = (Game.cpu.getUsed() - totalTime);
-    // console.log("Time to Draw: " + totalTime.toFixed(2));
-  }
-  console.log(statsConsole.displayLogs());
   
 };
 
@@ -398,3 +376,26 @@ const handleSpawnError = function (spawnError, role) {
   }
 };
 
+const handleStats = () => {
+  // sample data format ["Name for Stat", variableForStat]
+  let myStats = [
+    // ["c1300", c1300]
+    // ["Towers", towersCPUUsage],
+    // ["Links", linksCPUUsage],
+    // ["Setup Roles", SetupRolesCPUUsage],
+    // ["Creeps", CreepsCPUUsage],
+    // ["Init", initCPUUsage],
+    // ["Stats", statsCPUUsage],
+    // ["Total", totalCPUUsage]
+  ];
+  
+  statsConsole.run(myStats); // Run Stats collection
+  if ((Game.time % 5) === 0) {
+  }
+  console.log(statsConsole.displayHistogram(200, 20));
+  console.log(statsConsole.displayStats({
+    totalWidth: 240,
+    cpuTitle: ' CPU '
+  }));
+  console.log(statsConsole.displayLogs(undefined, {width: 240})); // width must be greater than the longest 1 liner message
+};
