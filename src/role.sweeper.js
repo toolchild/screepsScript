@@ -1,5 +1,6 @@
 const taskManager = require('task-manager');
 const roleBase = require('role.base');
+var statsConsole = require("statsConsole");
 
 
 var roleSweeper = {
@@ -18,8 +19,8 @@ var roleSweeper = {
         this.droppedSources = this.creep.room.find(FIND_DROPPED_RESOURCES,
             {
                 filter: dropped => {
-                    // console.log('coll: '+this.creep.name +' '+dropped.energy + '/' + this.creep.carryCapacity);
-                    // console.log('coll: '+this.creep.name +' ' +(dropped.energy > this.creep.carryCapacity));
+                    // statsConsole.log('coll: '+this.creep.name +' '+dropped.energy + '/' + this.creep.carryCapacity);
+                    // statsConsole.log('coll: '+this.creep.name +' ' +(dropped.energy > this.creep.carryCapacity));
                     return (dropped.energy > this.creep.carryCapacity && !_.contains(_.map(dropped.pos.look(), object => object.type), 'creep')) || dropped.energy > 250;
                 }
             });

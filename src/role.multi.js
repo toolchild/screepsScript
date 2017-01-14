@@ -1,4 +1,5 @@
 var taskManager = require('task-manager');
+var statsConsole = require("statsConsole");
 
 const roleMulti = {
 
@@ -13,10 +14,10 @@ const roleMulti = {
         this.decideTask(creep);
         switch (creep.memory.task) {
             case 0: {
-                // console.log('multi: ' + creep.name + ' is home');
+                // statsConsole.log('multi: ' + creep.name + ' is home');
                 if (creep.room.name != creep.memory.home.name) {
                     let exit = creep.room.findExitTo(creep.memory.home.name);
-                    // console.log('multi: exit: ' + exit);
+                    // statsConsole.log('multi: exit: ' + exit);
                     creep.moveTo(creep.pos.findClosestByPath(exit));
                 } else {
                     this.gather(creep);
@@ -27,7 +28,7 @@ const roleMulti = {
             case 1: {
                 if (creep.room.name != creep.memory.home.name) {
                     let exit = creep.room.findExitTo(creep.memory.home.name);
-                    // console.log('multi: exit: ' + exit);
+                    // statsConsole.log('multi: exit: ' + exit);
                     creep.moveTo(creep.pos.findClosestByPath(exit));
                 } else {
                     this.harvest(creep);
@@ -39,7 +40,7 @@ const roleMulti = {
             case 2: {
                 if (creep.room.name != creep.memory.home.name) {
                     let exit = creep.room.findExitTo(creep.memory.home.name);
-                    // console.log('multi: exit: ' + exit);
+                    // statsConsole.log('multi: exit: ' + exit);
                     creep.moveTo(creep.pos.findClosestByPath(exit));
                 } else {
                     this.build(creep);
@@ -51,7 +52,7 @@ const roleMulti = {
             case 3: {
                 if (creep.room.name != creep.memory.home.name) {
                     let exit = creep.room.findExitTo(creep.memory.home.name);
-                    // console.log('multi: exit: ' + exit);
+                    // statsConsole.log('multi: exit: ' + exit);
                     creep.moveTo(creep.pos.findClosestByPath(exit));
                 } else {
                     this.upgrade(creep);
@@ -87,29 +88,29 @@ const roleMulti = {
 
                     case -11: {
                         // tired
-                        console.log('multi:' + creep.name + ' tired');
+                        statsConsole.log('multi:' + creep.name + ' tired');
                         break;
                     }
                     case -4: {
                         // spawning
-                        console.log('multi:' + creep.name + ' spawning');
+                        statsConsole.log('multi:' + creep.name + ' spawning');
                         break;
                     }
                     default : {
-                        console.log('multi: ' + creep.name + ' moveError: ' + moveError);
+                        statsConsole.log('multi: ' + creep.name + ' moveError: ' + moveError);
                         creep.memory.targetIndex--;
                         if (creep.memory.targetIndex < 0) {
                             creep.memory.targetIndex = null;
-                            console.log('multi:' + creep.name + ' targetIndex reset');
+                            statsConsole.log('multi:' + creep.name + ' targetIndex reset');
 
                         } else {
-                            console.log('multi:' + creep.name + ' targetIndex changed: ' + creep.memory.targetIndex);
+                            statsConsole.log('multi:' + creep.name + ' targetIndex changed: ' + creep.memory.targetIndex);
                         }
                     }
                 }
             }
         } else {
-            // console.log('multi: ' + creep.name + ' gathering');
+            // statsConsole.log('multi: ' + creep.name + ' gathering');
         }
     },
 

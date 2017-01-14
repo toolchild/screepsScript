@@ -1,4 +1,6 @@
 var roleBase = require('role.base');
+var statsConsole = require("statsConsole");
+
 
 const roleWorker = {
 

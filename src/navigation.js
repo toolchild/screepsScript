@@ -1,3 +1,5 @@
+var statsConsole = require("statsConsole");
+
 var navigation = {
   
   /** @param {Creep} creep **/
@@ -10,8 +12,8 @@ var navigation = {
   decideTask(creep){
     
     let constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
-    // console.log('task: ' + creep.name + 'cSites: ' + constructionSites);
-    // console.log('task: ' + creep.name + ' store: ' + creep.room.storage.store[RESOURCE_ENERGY] + '/'+ creep.room.storage.storeCapacity*0.01 + ' needs Energy: ' + this.storageNeedsEnergy(creep))
+    // statsConsole.log('task: ' + creep.name + 'cSites: ' + constructionSites);
+    // statsConsole.log('task: ' + creep.name + ' store: ' + creep.room.storage.store[RESOURCE_ENERGY] + '/'+ creep.room.storage.storeCapacity*0.01 + ' needs Energy: ' + this.storageNeedsEnergy(creep))
     let room = creep.room;
     if (creep.carry.energy === 0) {
       creep.memory.isBusy = false;

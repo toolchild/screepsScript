@@ -1,5 +1,7 @@
 var roleBase = require('role.base');
 var taskManager = require('task-manager');
+var statsConsole = require("statsConsole");
+
 
 
 var roleLooter = {
@@ -23,12 +25,12 @@ var roleLooter = {
 
 
     handleTask(){
-        // console.log(Game.map.getTerrainAt(this.creep.pos));
-        // _.forEach(Game.map.describeExits(this.creep.pos.roomName), (exit => console.log(exit)));
+        // statsConsole.log(Game.map.getTerrainAt(this.creep.pos));
+        // _.forEach(Game.map.describeExits(this.creep.pos.roomName), (exit => statsConsole.log(exit)));
         switch (this.creep.memory.task) {
             case 0: {
-                // console.log('loot: ' + creep.name + ' is home');
-                // console.log(creep.home.name == creep.memory.home.home.name);
+                // statsConsole.log('loot: ' + creep.name + ' is home');
+                // statsConsole.log(creep.home.name == creep.memory.home.home.name);
                 if (!roleBase.willGoTargetRoom()) {
                     roleBase.handleDistanceHarvest(1);
                     this.creep.say('h');
@@ -96,17 +98,17 @@ var roleLooter = {
     },
 
 
-    // console.log('loot: ' + creep.name + ' home ' + creep.home + ' targetRoom: ' + creep.memory.targetRoomName + ' home: ' + creep.memory.home.home.name);
+    // statsConsole.log('loot: ' + creep.name + ' home ' + creep.home + ' targetRoom: ' + creep.memory.targetRoomName + ' home: ' + creep.memory.home.home.name);
 
     //     switch (creep.memory.task) {
     //         case 0: {
-    //             // console.log('loot: ' + creep.name + ' is home');
-    //             // console.log(creep.home.name == creep.memory.home.home.name);
+    //             // statsConsole.log('loot: ' + creep.name + ' is home');
+    //             // statsConsole.log(creep.home.name == creep.memory.home.home.name);
     //
     //             if (creep.room.name == creep.memory.home.room.name) {
     //
     //                 let exit = creep.room.findExitTo(creep.memory.targetRoomName);
-    //                 console.log('loot: ' + creep.name + ' go to target: ' + exit);
+    //                 statsConsole.log('loot: ' + creep.name + ' go to target: ' + exit);
     //                 creep.moveTo(creep.pos.findClosestByPath(exit));
     //
     //             } else {
@@ -118,7 +120,7 @@ var roleLooter = {
     //         case 1: {
     //             if (creep.room.name != creep.memory.home.room.name) {
     //                 let exit = creep.room.findExitTo(creep.memory.home.room.name);
-    //                 console.log('loot: ' + creep.name + ' go home: ' + exit);
+    //                 statsConsole.log('loot: ' + creep.name + ' go home: ' + exit);
     //                 creep.moveTo(creep.pos.findClosestByPath(exit));
     //             } else {
     //                 this.harvest(creep);
@@ -143,7 +145,7 @@ var roleLooter = {
     //         case 3: {
     //             if (creep.room.name != creep.memory.home.room.name) {
     //                 let exit = creep.room.findExitTo(creep.memory.home.room.name);
-    //                 console.log('loot: ' + creep.name + ' go home: ' + exit);
+    //                 statsConsole.log('loot: ' + creep.name + ' go home: ' + exit);
     //                 creep.moveTo(creep.pos.findClosestByRange(exit));
     //             } else {
     //                 this.upgrade(creep);
@@ -174,23 +176,23 @@ var roleLooter = {
 
                     case -11: {
                         // tired
-                        console.log('loot:' + creep.name + ' tired');
+                        statsConsole.log('loot:' + creep.name + ' tired');
                         break;
                     }
                     case -4: {
                         // spawning
-                        console.log('loot:' + creep.name + ' spawning');
+                        statsConsole.log('loot:' + creep.name + ' spawning');
                         break;
                     }
                     default : {
-                        console.log('loot: ' + creep.name + ' moveError: ' + moveError);
+                        statsConsole.log('loot: ' + creep.name + ' moveError: ' + moveError);
                         creep.memory.targetIndex--;
                         if (creep.memory.targetIndex < 0) {
                             creep.memory.targetIndex = null;
-                            console.log('loot:' + creep.name + ' targetIndex reset');
+                            statsConsole.log('loot:' + creep.name + ' targetIndex reset');
 
                         } else {
-                            console.log('loot:' + creep.name + ' targetIndex changed: ' + creep.memory.targetIndex);
+                            statsConsole.log('loot:' + creep.name + ' targetIndex changed: ' + creep.memory.targetIndex);
                         }
                     }
                 }

@@ -1,4 +1,5 @@
 const settings = require('settings');
+var statsConsole = require("statsConsole");
 
 var roleTower = {
   
@@ -15,7 +16,7 @@ var roleTower = {
         } else {
           var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
-              // console.log('structure.type = ' + structure.structureType);
+              // statsConsole.log('structure.type = ' + structure.structureType);
               return (structure.structureType != STRUCTURE_WALL && structure.structureType != STRUCTURE_RAMPART && structure.hits < structure.hitsMax)
                 || (structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax * settings.WALL_REPAIR_PER_ONE)
                 || (structure.structureType == STRUCTURE_RAMPART && structure.hits < settings.RAMPART_REPAIR_VALUE);
@@ -25,8 +26,8 @@ var roleTower = {
         
         if (closestDamagedStructure) {
           tower.repair(closestDamagedStructure);
-          // console.log('tower1: repair: ' + closestDamagedStructure.structureType + ' pos: ' + closestDamagedStructure.pos + ' hits: ' + closestDamagedStructure.hits + '/' + closestDamagedStructure.hitsMax);
-          // console.log(closestDamagedStructure.structureType == STRUCTURE_RAMPART + ','+closestDamagedStructure.hits < settings.RAMPART_REPAIR_VALUE)
+          // statsConsole.log('tower1: repair: ' + closestDamagedStructure.structureType + ' pos: ' + closestDamagedStructure.pos + ' hits: ' + closestDamagedStructure.hits + '/' + closestDamagedStructure.hitsMax);
+          // statsConsole.log(closestDamagedStructure.structureType == STRUCTURE_RAMPART + ','+closestDamagedStructure.hits < settings.RAMPART_REPAIR_VALUE)
         }
         
       }

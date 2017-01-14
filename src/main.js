@@ -30,7 +30,7 @@ const numM1550 = roomCapacity >= consts.E_LEVEL_550 ? settings.NUM_M1550 : 0;
 
 const numC250 = roomCapacity >= consts.E_LEVEL_250 && roomCapacity < consts.E_LEVEL_550 ? settings.NUM_Col250 : 0;
 const numC550 = roomCapacity >= consts.E_LEVEL_550 && roomCapacity < consts.E_LEVEL_750 ? settings.NUM_Col550 : 0;
-const numC750 = roomCapacity >= consts.E_LEVEL_750  && roomCapacity < consts.E_LEVEL_1300? settings.NUM_Col750 : 0;
+const numC750 = roomCapacity >= consts.E_LEVEL_750 && roomCapacity < consts.E_LEVEL_1300 ? settings.NUM_Col750 : 0;
 const numC1300 = roomCapacity >= consts.E_LEVEL_1300 ? settings.NUM_Col1300 : 0;
 
 const numUp200 = 0;
@@ -70,40 +70,66 @@ const tower2 = Game.getObjectById('58791fd9fcfae81e151c2793');
 
 module.exports.loop = function () {
   
-  let loopCPUStart = Game.cpu.getUsed();
+  // let loopCPUStart = Game.cpu.getUsed();
   //
   // var stringified = JSON.stringify(Memory);
   // var startCpu = Game.cpu.getUsed();
   // JSON.parse(stringified);
   // var value = Game.cpu.getUsed() - startCpu;
-  // console.log('CPU parse:', value + ' of: ' + Game.cpu.tickLimit + ' which is: ' + value / Game.cpu.tickLimit * 100 + '% and: ' + value / Game.cpu.limit * 100 +'% of the limit: ' + Game.cpu.limit);
+  // statsConsole.log('CPU parse:', value + ' of: ' + Game.cpu.tickLimit + ' which is: ' + value / Game.cpu.tickLimit * 100 + '% and: ' + value / Game.cpu.limit * 100 +'% of the limit: ' + Game.cpu.limit);
   
   fillMemory();
   prepareCreepsAmounts();
-  logStats();
+  // logStats();
   clearMemory();
   respawnCreeps();
   roleTower.run(tower1);
   roleTower.run(tower2);
   handleCreeps();
   
-  let value = Game.cpu.getUsed() - loopCPUStart;
-  console.log('\tCPU loop:', value.toFixed(1) + ' of: ' + Game.cpu.tickLimit + ' which is: ' + (value / Game.cpu.tickLimit * 100).toFixed(1) + '% ' +
-    'and: ' + (value / Game.cpu.limit * 100).toFixed(1) + '% of the limit: ' + Game.cpu.limit + ' of: ' + Game.cpu.bucket);
+  // let value = Game.cpu.getUsed() - loopCPUStart;
+  // statsConsole.log('\tCPU loop:', value.toFixed(1) + ' of: ' + Game.cpu.tickLimit + ' which is: ' + (value / Game.cpu.tickLimit * 100).toFixed(1) + '% ' +
+  //   'and: ' + (value / Game.cpu.limit * 100).toFixed(1) + '% of the limit: ' + Game.cpu.limit + ' of: ' + Game.cpu.bucket);
+  
+  var statsConsole = require("statsConsole");
+  // sample data format ["Name for Stat", variableForStat]
+  let myStats = [
+    // ["c1300", 5],
+    // ["Towers", towersCPUUsage],
+    // ["Links", linksCPUUsage],
+    // ["Setup Roles", SetupRolesCPUUsage],
+    // ["Creeps", CreepsCPUUsage],
+    // ["Init", initCPUUsage],
+    // ["Stats", statsCPUUsage],
+    // ["Total", totalCPUUsage]
+  ];
+  
+  statsConsole.run(myStats); // Run Stats collection
+  // if (totalTime > Game.cpu.limit) {
+  //   statsConsole.log("Tick: " + Game.time + "  CPU OVERRUN: " + Game.cpu.getUsed().toFixed(2) + "  Bucket:" + Game.cpu.bucket, 5);
+  // }
+  if ((Game.time % 5) === 0) {
+    console.log(statsConsole.displayHistogram());
+    console.log(statsConsole.displayStats());
+    //console.log(statsConsole.displayMaps()); // Don't use as it will consume ~30-40 CPU
+    // totalTime = (Game.cpu.getUsed() - totalTime);
+    // console.log("Time to Draw: " + totalTime.toFixed(2));
+  }
+  console.log(statsConsole.displayLogs());
   
 };
 
 const fillMemory = () => {
   if (!Memory.home || !Memory.home.roomSources || !Memory.home.room || memoryNeedsUpdate) {
     this.Game = Game;
-    console.log('filling memory');
+    statsConsole.log('filling memory');
     Memory.home = {
       room: Game.spawns['Spawn1'].room,
       roomSources: _.map(_.sortBy(Game.spawns['Spawn1'].room.find(FIND_SOURCES), (source) => source.id), (source) => source.id),
     };
   } else {
     Memory.home.room = Game.spawns['Spawn1'].room;
-    // console.log('main memory: roomSources: ' + Memory.home.roomSources);
+    // statsConsole.log('main memory: roomSources: ' + Memory.home.roomSources);
   }
   
 };
@@ -132,7 +158,7 @@ const prepareCreepsAmounts = function () {
   dH800 = _.filter(Game.creeps, (creep) => creep.memory.role == 'dH800');
 };
 const logStats = function () {
-  console.log('main:Energy:' + Memory.home.room.energyAvailable + '/' + Memory.home.room.energyCapacityAvailable
+  statsConsole.log('main:Energy:' + Memory.home.room.energyAvailable + '/' + Memory.home.room.energyCapacityAvailable
     + ' s100:' + s100.length + '/' + numS100
     + ' r200:' + h200.length + '/' + numR200
     + ' h200:' + h200.length + '/' + numH200
@@ -158,7 +184,7 @@ const logStats = function () {
     + ' dH800:' + dH800.length + '/' + numDH800
   );
   
-  // console.log('home:  ' + Memory.home.room.find(FIND_SOURCES) + ' roomSources: ' + Memory.home.roomSources);
+  // statsConsole.log('home:  ' + Memory.home.room.find(FIND_SOURCES) + ' roomSources: ' + Memory.home.roomSources);
   
 };
 
@@ -166,7 +192,7 @@ const clearMemory = function () {
   for (var name in Memory.creeps) {
     if (!Game.creeps[name]) {
       delete Memory.creeps[name];
-      console.log('main: clearing non-existing creep memory:', name);
+      statsConsole.log('main: clearing non-existing creep memory:', name);
     }
   }
 };
@@ -284,7 +310,7 @@ const spawnCollectors = function (spawnError) {
     handleSpawnError(spawnError, role);
   }
   
-  if (spawnError.length == null && c1300.length < numC1300){
+  if (spawnError.length == null && c1300.length < numC1300) {
     let role = 'c1300';
     spawnError = spawnCreep([WORK, WORK, WORK, WORK, WORK,
                              CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
@@ -357,19 +383,18 @@ const handleSpawnError = function (spawnError, role) {
   if (role != null) {
     switch (spawnError) {
       case ERR_BUSY: {
-        console.log('main: '+ role + ' cannot spawn because spawn is busy')
+        statsConsole.log('main: ' + role + ' cannot spawn because spawn is busy')
         break;
       }
       case ERR_NOT_ENOUGH_ENERGY: {
-        console.log('main: ' + role + ' waiting for energy to spawn');
+        statsConsole.log('main: ' + role + ' waiting for energy to spawn');
         break;
       }
       default: {
-        console.log('main: spawn new: ' + role + ' spanwnError: ' + spawnError);
+        statsConsole.log('main: spawn new: ' + role + ' spanwnError: ' + spawnError);
         break;
       }
     }
   }
 };
-
 

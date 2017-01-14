@@ -1,4 +1,6 @@
-var roleBuilder = {
+const statsConsole = require("statsConsole");
+
+const roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function (creep) {
@@ -11,7 +13,7 @@ var roleBuilder = {
         }
 
         if (creep.memory.isBusy) {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+            let targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             if (targets.length) {
                 creep.say('isBusy');
                 if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
@@ -20,24 +22,24 @@ var roleBuilder = {
                 }
             } else {
                 creep.moveTo(20, 20);
-                console.log('builder ' + creep.name + ' is full and has no valid target.')
+                statsConsole.log('builder ' + creep.name + ' is full and has no valid target.')
                 creep.say('standby')
             }
         }
         else {
-            var sources = creep.room.find(FIND_SOURCES)
+            let sources = creep.room.find(FIND_SOURCES);
             if (creep.memory.targetIndex == null) {
                 creep.memory.targetIndex = 0;
             }
-            console.log(creep.name + ' sources: ' + sources[creep.memory.targetIndex] + ' index: ' + creep.memory.targetIndex);
+            statsConsole.log(creep.name + ' sources: ' + sources[creep.memory.targetIndex] + ' index: ' + creep.memory.targetIndex);
             if (creep.harvest(sources[creep.memory.targetIndex]) != 0) {
                 if (creep.moveTo(sources[creep.memory.targetIndex]) != 0) {
                     creep.memory.targetIndex++;
                     if (creep.memory.targetIndex >= sources.length) {
                         creep.memory.targetIndex = null;
-                        console.log(creep.name + ' targetIndex reset');
+                        statsConsole.log(creep.name + ' targetIndex reset');
                     } else {
-                        console.log(creep.name + ' targetIndex changed: ' + creep.memory.targetIndex);
+                        statsConsole.log(creep.name + ' targetIndex changed: ' + creep.memory.targetIndex);
                     }
                 }
             }
