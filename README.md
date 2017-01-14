@@ -1,11 +1,16 @@
 
 just put the contents of src/ into your scripts folder for screeps
+
 Screeps does not allow a folder structure, you will have to copy all files in folder to the folder of your branch
+
 e.g. for Windows: ``C:\Users\YOUR_USERNAME\AppData\Local\Screeps\scripts\screeps.com\default``
 
-or add these to your gruntfile if you use grunt
+---
+
+or add these to your gruntfile if you use grunt and start with ``grunt c``
 
     grunt.initConfig({
+
       copy: {
           main: {
 
@@ -24,6 +29,7 @@ or add these to your gruntfile if you use grunt
             ],
           },
         },
+
     }); // The end of grunt.initConfig
 
 
