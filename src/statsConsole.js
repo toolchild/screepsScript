@@ -78,7 +78,7 @@ var statsConsole = {
    */
   displayHistogram: function (width = 100, height = 20) {
     var asciiChart = require("ascii-chart");
-    let output = asciiChart.chart(Memory.stats.__cpu.slice(0, Math.floor(width / 2.2)).reverse(), {
+    let output = asciiChart.chart(Memory.stats.__cpu.slice(0, Math.floor(width / 2.3)).reverse(), {
       width: width,
       height: height
     });

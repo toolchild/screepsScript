@@ -1,9 +1,11 @@
 var taskManager = require('task-manager');
 var statsConsole = require("statsConsole");
+const settings = require('settings');
 
 const roleBase = {
-  wallRepairPerOne: 0.0001, // 0,0001 = 30k
-  creep: null, sources: null, droppedSources: null,
+  creep: null,
+  sources: null,
+  droppedSources: null,
   
   // tasks
   // 0 : handleHarvest
@@ -17,21 +19,19 @@ const roleBase = {
     this.creep = creep;
     this.sources = _.map(this.creep.memory.home.roomSources, roomSource => Game.getObjectById(roomSource));
     this.droppedSources = droppedSources;
-    
   },
   
   initDistance(creep, droppedSources){
     this.creep = creep;
     this.sources = _.sortBy(this.creep.room.find(FIND_SOURCES), (source) => source.pos.y);
     this.droppedSources = droppedSources;
-    
   },
   
-  decideTask() {
+  decideTask(){
     this.creep.memory.task = taskManager.decideTask(this.creep);
   },
   
-  willGoHome(){
+  willGoHome()  {
     if (this.creep.room.name != this.creep.memory.home.room.name) {
       let exit = this.creep.room.findExitTo(this.creep.memory.home.room.name);
       this.creep.moveTo(this.creep.pos.findClosestByPath(exit));
@@ -39,23 +39,25 @@ const roleBase = {
     } else {
       return false;
     }
-  },
+  }
+  ,
   
-  willGoTargetRoom(){
+  willGoTargetRoom()  {
     if (this.creep.room.name != this.creep.memory.targetRoomName) {
       let exit = this.creep.room.findExitTo(this.creep.memory.targetRoomName);
       statsConsole.log('base: ' + this.creep.name + ' go to exit: ' + exit + ' to: ' + this.creep.memory.targetRoomName);
       let moveError = this.creep.moveTo(this.creep.pos.findClosestByPath(exit));
-      if (moveError != OK) {
+      if (moveError != OK && moveError != ERR_BUSY) {
         this.handleMoveErrorCollect(moveError);
       }
       return true;
     } else {
       return false;
     }
-  },
+  }  ,
   
-  handleHarvest(prioTargetIndex){
+  handleHarvest(prioTargetIndex)
+  {
     // statsConsole.log('base: prio: ' + prioTargetIndex)
     if (this.creep.memory.targetIndex == null) {
       this.creep.memory.targetIndex = prioTargetIndex == null ? 0 : prioTargetIndex;
@@ -69,17 +71,20 @@ const roleBase = {
         this.handleMoveError(moveError, prioTargetIndex);
       }
     }
-  },
+  }
+  ,
   
-  handleDistanceHarvest(prioTargetIndex){
+  handleDistanceHarvest(prioTargetIndex)
+  {
     if (this.creep.pos.y < 48) {
       this.handleHarvest(prioTargetIndex);
     } else {
       this.creep.move(TOP);
     }
-  },
+  }
+  ,
   
-  handleCollect(){
+  handleCollect()  {
     if (this.droppedSources && this.droppedSources.length > 0) {
       // statsConsole.log('base: ' + this.creep.name + ' droppedSources: ' + this.droppedSources);
       let closest = this.creep.pos.findClosestByRange(this.droppedSources);
@@ -116,9 +121,9 @@ const roleBase = {
     }
     // statsConsole.log(log);
     
-  },
+  }  ,
   
-  handleSweeperCollect(){
+  handleSweeperCollect()  {
     if (this.droppedSources && this.droppedSources.length > 0) {
       let gatherError = this.creep.pickup(this.droppedSources[0]);
       if (gatherError != OK) {
@@ -137,10 +142,9 @@ const roleBase = {
       }
       // statsConsole.log(log);
     }
-  },
+  }  ,
   
-  handleTransfer()
-  {
+  handleTransfer()  {
     this.creep.memory.isBusy = true;
     let targets = this.creep.room.find(FIND_STRUCTURES, {
       filter: (structure) => {
@@ -152,16 +156,16 @@ const roleBase = {
     });
     // let storage = Game.getObjectById('5876f85b253a1daf341e47bf');
     // statsConsole.log(storage.store[RESOURCE_ENERGY] + '/'+ storage.storeCapacity);
-    // statsConsole.log(navigation.storageNeedsEnergy(this.creep));
+    // statsConsole.log(memoryHandler.storageNeedsEnergy(this.creep));
     // statsConsole.log('base ' + this.creep.name + ' transfer targets ' + targets);
     if (targets.length > 0) {
       this.handleTransferTargets(targets);
     } else {
       this.creep.memory.isBusy = false;
     }
-  },
+  }  ,
   
-  handleBuild(){
+  handleBuild()  {
     this.creep.memory.isBusy = true;
     var targets = this.creep.room.find(FIND_CONSTRUCTION_SITES);
     // statsConsole.log('base: ' + this.creep.name + ' constructionSites: ' + targets);
@@ -177,10 +181,9 @@ const roleBase = {
     } else {
       this.creep.memory.isBusy = false;
     }
-  },
+  }  ,
   
-  handleUpgrade()
-  {
+  handleUpgrade()  {
     this.creep.memory.isBusy = true;
     if (this.creep.room.controller) {
       let rangeToController = this.creep.pos.getRangeTo(this.creep.room.controller);
@@ -195,15 +198,14 @@ const roleBase = {
     } else if (this.creep.energy === 0) {
       this.creep.memory.isBusy = false;
     }
-  },
+  }  ,
   
-  handleRepair()
-  {
+  handleRepair()  {
     this.creep.memory.isBusy = true;
     var closestDamagedStructure = this.creep.pos.findClosestByRange(FIND_STRUCTURES, {
       filter: (structure) => {
         // statsConsole.log('structure.type = ' + structure.structureType);
-        return (structure.structureType != STRUCTURE_WALL && structure.hits < structure.hitsMax) || (structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax * wallRepairPerOne);
+        return (structure.structureType != STRUCTURE_WALL && structure.hits < structure.hitsMax) || (structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax * settings.WALL_REPAIR_PER_ONE);
       }
     });
     
@@ -215,9 +217,9 @@ const roleBase = {
     } else {
       this.creep.memory.isBusy = false;
     }
-  },
+  }  ,
   
-  handleMoveError(moveError, prioTargetIndex){
+  handleMoveError(moveError, prioTargetIndex)  {
     switch (moveError) {
       case -11: { // tired
         // statsConsole.log('base: ' + this.creep.name + ' is tired.');
@@ -244,7 +246,7 @@ const roleBase = {
         }
       }
     }
-  },
+  }  ,
   
   handleMoveErrorCollect(moveError){
     switch (moveError) {
@@ -271,7 +273,7 @@ const roleBase = {
         }
       }
     }
-  },
+  }  ,
   
   handleTransferTargets(targets){
     let prioStructures = _.filter(targets, (target) => target.structureType == STRUCTURE_EXTENSION || target.structureType == STRUCTURE_SPAWN);
@@ -303,7 +305,8 @@ const roleBase = {
     }
   },
   
-  findBufferStructures(){
+  findBufferStructures()
+  {
     return this.creep.room.find(FIND_STRUCTURES, {
       filter: (structure) => {
         return (structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_CONTAINER) && (structure.energy > 0 || structure.store[RESOURCE_ENERGY] > 0);

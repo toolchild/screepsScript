@@ -1,6 +1,7 @@
 var roleBase = require('role.base');
 var statsConsole = require("statsConsole");
 
+
 var roleRepairer = {
 
     role: null,
@@ -12,6 +13,7 @@ var roleRepairer = {
         this.decideAndHandleTask()
 
     },
+  
 
     init(creep){
         this.creep = creep;
