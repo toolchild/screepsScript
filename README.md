@@ -15,15 +15,6 @@ or add these to your gruntfile if you use grunt and start with ``grunt c``
           main: {
 
             files: [
-              // includes files within path
-              // {expand: true, src: ['src/*'], dest: 'dist/', filter: 'isFile'},
-
-              // includes files within path and its sub-directories
-              // {expand: true, src: ['src/**',  '!**/auto-complete/**'], dest: 'dist/'},
-
-              // makes all src relative to cwd
-              // {expand: true, cwd: '/', src: ['src/**' , '!**/auto-complete/**' ], dest: 'dist/'},
-
               // flattens results to a single level
               {expand: true, flatten: true, src: ['src/*' , 'src/role/*'], dest: 'dist/', filter: 'isFile'},
             ],
