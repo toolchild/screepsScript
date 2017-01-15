@@ -1,8 +1,7 @@
-
 // original source: https://github.com/screepers/screeps-ConsoleStats.git
 
 //TODO some how I want this to work with https://github.com/Puciek/screeps-elk
-var useUtilsLogger = false;
+let useUtilsLogger = false;
 try {
   require('third-party.logger.js');
   useUtilsLogger = true;
@@ -11,7 +10,7 @@ try {
   //console.log("third-party.logger.js: Not found.", 3);
 }
 
-var statsConsole = {
+const statsConsole = {
   
   /**
    * Return ascii chart of `data` formatted ["Name", number].
@@ -80,7 +79,7 @@ var statsConsole = {
    * @returns {*} - String with </br>'s with cpu usage data
    */
   displayHistogram: function (width = 100, height = 20) {
-    var asciiChart = require("ascii-chart");
+    let asciiChart = require("ascii-chart");
     let output = asciiChart.chart(Memory.stats.__cpu.slice(0, Math.floor(width / 2.3)).reverse(), {
       width: width,
       height: height
@@ -156,7 +155,7 @@ var statsConsole = {
       cpuAverage = cpuAverage + Memory.stats.__cpu[i];
     }
     cpuAverage = cpuAverage / cpuAvgCount;
-    var spacesToEnd = function (count, len) {
+    let spacesToEnd = function (count, len) {
       return _.repeat(" ", (len - count.length));
     };
     let lineName = [
@@ -300,46 +299,7 @@ var statsConsole = {
     output = `<span style="${styleStr}">${output}</span>`;
     return output;
   },
-  geohash: function () { // Get creep location and save as geohash
-    var geohash = require("geohash");
-    var geohashArray = undefined;
-    for (let creep in Game.creeps) {
-      if (!Game.creeps.hasOwnProperty(creep)) {
-        continue;
-      }
-      if (creep !== undefined) {
-        let thisRoom = Game.creeps[creep].pos.roomName;
-        let strBuild = "";
-        for (let i = 0, len = thisRoom.length; i < len; i++) {
-          let j = "";
-          if (thisRoom.charAt(i) == "E") {
-            j = "+";
-          } else if (thisRoom.charAt(i) == "W") {
-            j = "-";
-          } else if (thisRoom.charAt(i) == "N") {
-            j = "." + Game.creeps[creep].pos.x + ",+";
-          } else if (thisRoom.charAt(i) == "S") {
-            j = "." + Game.creeps[creep].pos.x + ",-";
-          } else {
-            j = thisRoom.charAt(i);
-          }
-          strBuild = strBuild + j;
-        }
-        let y = "." + Game.creeps[creep].pos.y;
-        
-        strBuild = strBuild + y;
-        var geoHash = _.words(strBuild, /[^,]+/g);
-        var ghash = geohash(geoHash[0], geoHash[1]);
-        //console.log(strBuild); // shows +41.32,-6.7
-        
-        // You can use this bit if you want to output +41.32,-6.7 like coordinates
-        //lat = geoHash[0];
-        //lng = geoHash[1];
-        geohashArray.concat(ghash);
-      }
-    }
-    return geohashArray;
-  },
+  
   log: function (message, severity = 3) {
     
     Memory.stats.logs.push([Game.time + ": " + message, severity]);
@@ -350,14 +310,14 @@ var statsConsole = {
    * @param {Object} logs.[][] - Optional log input from your own array, example: logs.push(["Creep Done!",3]);
    * @param {Object} opts - object that contains the following settings example: {totalWidth: 100,useProgressBar: true,cpuTitle: "CPU"}
    * @param {number} opts.width - total chart width [100]
-   * @param {number} opts.title - []
-   * @param {number} opts.leftTopCorner - []
-   * @param {number} opts.rightTopCorner - []
-   * @param {number} opts.leftBottomCorner - []
-   * @param {number} opts.rightBottomCorner - []
-   * @param {number} opts.hBar - []
-   * @param {number} opts.vBar - []
-   * @param {number} opts.spacing - []
+   * @param {string} opts.title - []
+   * @param {string} opts.leftTopCorner - []
+   * @param {string} opts.rightTopCorner - []
+   * @param {string} opts.leftBottomCorner - []
+   * @param {string} opts.rightBottomCorner - []
+   * @param {string} opts.hBar - []
+   * @param {string} opts.vBar - []
+   * @param {string} opts.spacing - []
    *
    * @return {String}
    * @api public
@@ -392,7 +352,7 @@ var statsConsole = {
       'highlight': '#ffff00',
     };
     
-    var outputLog = leftTopCorner + hBar.repeat(((boxWidth - title.length) / 2)) + title + hBar.repeat(((boxWidth - title.length) / 2) + addSpace) + rightTopCorner + "\n";
+    let outputLog = leftTopCorner + hBar.repeat(((boxWidth - title.length) / 2)) + title + hBar.repeat(((boxWidth - title.length) / 2) + addSpace) + rightTopCorner + "\n";
     for (let i = 0; i < boxHeight; i++) { // Y coordinate |
       let severity = Memory.stats.logs[i][0, 1];
       let message = Memory.stats.logs[i][0, 0];
@@ -522,7 +482,7 @@ var statsConsole = {
     if (!(boxWidth % 2 === 0)) {
       addSpace = 1;
     }
-    var colors = {
+    let colors = {
       '5': '#ff0066',
       '4': '#e65c00',
       '3': '#809fff',

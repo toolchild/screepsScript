@@ -214,7 +214,7 @@ const roleBase = {
    */
   handleBuild(creep)  {
     creep.memory.isBusy = true;
-    var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+    const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
     // statsConsole.log('base: ' + creep.name + ' constructionSites: ' + targets);
     if (targets.length > 0) {
       let closest = creep.pos.findClosestByRange(targets);

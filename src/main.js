@@ -17,9 +17,7 @@ module.exports.loop = function () {
   roleTower.run(tower1);
   roleTower.run(tower2);
   creepSpawner.handleCreeps();
-  
-  let myStats = creepSpawner.getCreepStats();
-  printStatsConsole(myStats);
+  printStatsConsole(creepSpawner.getCreepStats());
   // } catch (error) {console.log(error)}
   
 };
@@ -29,20 +27,33 @@ const printStatsConsole = (myStats) => {
   if ((Game.time % 5) === 0) {
     console.log(statsConsole.displayHistogram(200, 20));
     console.log(statsConsole.displayStats({
-        totalWidth: 240,
-        cpuTitle: ' CPU '
-      }
-    ));
+      totalWidth: 240,
+      cpuHistory: 10,
+      cpuTitle: ' CPU ',
+      statsTitle: 'Stats',
+      leftTopCorner: '+',
+      rightTopCorner: '+',
+      leftBottomCorner: '+',
+      rightBottomCorner: '+',
+      hBar: '-',
+      vBar: '|',
+      percent: '%',
+      useProgressBar: 'yes',
+      percentInProgressBar: 'yes',
+      progressBar: '#',
+      spacing: ' ',
+      links: 'yes'
+    }));
   }
   console.log(statsConsole.displayLogs(undefined, {
     width: 240,
-    title: null,
-    leftTopCorner: null,
-    rightTopCorner: null,
-    leftBottomCorner: null,
-    rightBottomCorner: null,
-    hBar: null,
-    vBar: null,
+    title: ' Logs ',
+    leftTopCorner: '+',
+    rightTopCorner: '+',
+    leftBottomCorner: '+',
+    rightBottomCorner: '+',
+    hBar: '-',
+    vBar: '|',
     spacing: ' '
   })); // width must be greater than the longest 1 liner message
 };

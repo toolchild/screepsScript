@@ -1,8 +1,7 @@
-const taskManager = require('task-manager');
 const roleBase = require('role.base');
-var statsConsole = require("statsConsole");
+// var statsConsole = require("statsConsole");
 
-var roleCollector = {
+const roleCollector = {
   creep: null,
   droppedSources: null,
   
@@ -26,9 +25,7 @@ var roleCollector = {
     
   },
   
-  /** @param {Creep} creep **/
   handleTask() {
-    
     if (!roleBase.willGoHome(this.creep)) {
       let willRepairInstead = false;
       switch (this.creep.memory.task) {
@@ -68,6 +65,6 @@ var roleCollector = {
     }
   },
   
-}
+};
 
 module.exports = roleCollector;
