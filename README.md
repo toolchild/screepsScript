@@ -6,7 +6,7 @@ e.g. for Windows: ``C:\Users\YOUR_USERNAME\AppData\Local\Screeps\scripts\screeps
 
 ---
 
-or add these to your gruntfile if you use grunt and start with ``grunt c``
+or add these to your gruntfile if you use grunt and start with ``grunt c`` and then take the contents of dist/
 
     grunt.initConfig({
 
