@@ -2,13 +2,12 @@ var statsConsole = require("statsConsole");
 
 var taskManager = {
   
-  /** @param {Creep} creep **/
-  
-  // tasks
-  // 0 : gather
-  // 1 : handleTransfer
-  // 2 : handleBuild
-  // 3 : handleUpgrade
+  /** @param {Creep} creep
+   tasks
+   0 : need energy,
+   1 : transfer energy,
+   2 : build,
+   3 : upgrade*/
   decideTask(creep){
     
     let constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);

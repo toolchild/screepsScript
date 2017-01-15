@@ -1,11 +1,11 @@
 //TODO some how I want this to work with https://github.com/Puciek/screeps-elk
 var useUtilsLogger = false;
 try {
-  require('utils.logger.js');
+  require('third-party.logger.js');
   useUtilsLogger = true;
 } catch (err) {
   useUtilsLogger = false;
-  //console.log("utils.logger.js: Not found.", 3);
+  //console.log("third-party.logger.js: Not found.", 3);
 }
 
 var statsConsole = {

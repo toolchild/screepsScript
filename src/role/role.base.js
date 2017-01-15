@@ -7,12 +7,6 @@ const roleBase = {
   sources: null,
   droppedSources: null,
   
-  // tasks
-  // 0 : handleHarvest
-  // 1 : handleTransfer
-  // 2 : handleBuild
-  // 3 : handleUpgrade
-  
   /** @param {Creep} creep **/
   
   init(creep, droppedSources){
@@ -27,6 +21,12 @@ const roleBase = {
     this.droppedSources = droppedSources;
   },
   
+  
+  /** tasks
+   0 : need energy
+   1 : transfer energy
+   2 : build
+   3 : upgrade*/
   decideTask(){
     this.creep.memory.task = taskManager.decideTask(this.creep);
   },
@@ -54,7 +54,7 @@ const roleBase = {
     } else {
       return false;
     }
-  }  ,
+  },
   
   handleHarvest(prioTargetIndex)
   {
@@ -121,7 +121,7 @@ const roleBase = {
     }
     // statsConsole.log(log);
     
-  }  ,
+  },
   
   handleSweeperCollect()  {
     if (this.droppedSources && this.droppedSources.length > 0) {
@@ -142,7 +142,7 @@ const roleBase = {
       }
       // statsConsole.log(log);
     }
-  }  ,
+  },
   
   handleTransfer()  {
     this.creep.memory.isBusy = true;
@@ -163,7 +163,7 @@ const roleBase = {
     } else {
       this.creep.memory.isBusy = false;
     }
-  }  ,
+  },
   
   handleBuild()  {
     this.creep.memory.isBusy = true;
@@ -181,7 +181,7 @@ const roleBase = {
     } else {
       this.creep.memory.isBusy = false;
     }
-  }  ,
+  },
   
   handleUpgrade()  {
     this.creep.memory.isBusy = true;
@@ -198,7 +198,7 @@ const roleBase = {
     } else if (this.creep.energy === 0) {
       this.creep.memory.isBusy = false;
     }
-  }  ,
+  },
   
   handleRepair()  {
     this.creep.memory.isBusy = true;
@@ -217,7 +217,7 @@ const roleBase = {
     } else {
       this.creep.memory.isBusy = false;
     }
-  }  ,
+  },
   
   handleMoveError(moveError, prioTargetIndex)  {
     switch (moveError) {
@@ -246,7 +246,7 @@ const roleBase = {
         }
       }
     }
-  }  ,
+  },
   
   handleMoveErrorCollect(moveError){
     switch (moveError) {
@@ -273,7 +273,7 @@ const roleBase = {
         }
       }
     }
-  }  ,
+  },
   
   handleTransferTargets(targets){
     let prioStructures = _.filter(targets, (target) => target.structureType == STRUCTURE_EXTENSION || target.structureType == STRUCTURE_SPAWN);
