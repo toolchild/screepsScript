@@ -1,18 +1,24 @@
-var taskManager = require('task-manager');
-var statsConsole = require("statsConsole");
+const taskManager = require('task-manager');
+const statsConsole = require("statsConsole");
 const settings = require('settings');
 
 const roleBase = {
   sources: null,
   droppedSources: null,
   
-  /** @param {Creep} creep **/
+  /** @param creep @type {Creep}
+   *  @param droppedSources @type {[Resource]}
+   *
+   */
   
   init(creep, droppedSources){
     this.sources = _.map(creep.memory.home.roomSources, roomSource => Game.getObjectById(roomSource));
     this.droppedSources = droppedSources;
   },
   
+  /** @param creep @type {Creep}
+   *  @param droppedSources @type{[Resource]}
+   */
   initDistance(creep, droppedSources){
     this.sources = _.sortBy(creep.room.find(FIND_SOURCES), (source) => source.pos.y);
     this.droppedSources = droppedSources;
@@ -24,15 +30,15 @@ const roleBase = {
    * 1 : transfer energy
    * 2 : build
    * 3 : upgrade
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    */
   decideTask(creep){
     creep.memory.task = taskManager.decideTask(creep);
   },
   
   /**
-   * @param creep {Creep}
-   * @returns {boolean}
+   * @param creep @type {Creep}
+   * @returns  {boolean}
    */
   willGoHome(creep){
     if (creep.room.name != creep.memory.home.room.name) {
@@ -45,7 +51,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    * @returns {boolean}
    */
   willGoTargetRoom(creep)  {
@@ -63,13 +69,13 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
+   * @param priorityTargetIndex @type {Number}
    */
-  handleHarvest(creep, prioTargetIndex)
+  handleHarvest(creep, priorityTargetIndex)
   {
-    // consoleStats.log('base: prio: ' + prioTargetIndex)
     if (creep.memory.targetIndex == null) {
-      creep.memory.targetIndex = prioTargetIndex == null ? 0 : prioTargetIndex;
+      creep.memory.targetIndex = priorityTargetIndex == null ? 0 : priorityTargetIndex;
     }
     // consoleStats.log('base: target index: ' + creep.memory.targetIndex);
     // consoleStats.log('base: this.sources: ' + this.sources);
@@ -77,18 +83,19 @@ const roleBase = {
     if (harvestError != OK) {
       let moveError = creep.moveTo(this.sources[creep.memory.targetIndex]);
       if (moveError != OK) {
-        this.handleMoveError(moveError, prioTargetIndex);
+        this.handleMoveError(moveError, priorityTargetIndex);
       }
     }
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
+   * @param priorityTargetIndex @type {Number}
    */
-  handleDistanceHarvest(creep, prioTargetIndex)
+  handleDistanceHarvest(creep, priorityTargetIndex)
   {
     if (creep.pos.y < 48) {
-      this.handleHarvest(prioTargetIndex);
+      this.handleHarvest(priorityTargetIndex);
     } else {
       creep.move(TOP);
     }
@@ -96,7 +103,7 @@ const roleBase = {
   ,
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    */
   handleCollect(creep)  {
     creep.memory.hasCollectedFromStorage = false;
@@ -135,6 +142,7 @@ const roleBase = {
             this.handleMoveErrorCollect(creep, moveError);
           }
         } else {
+          statsConsole.log('base: ' + creep.name + ' setCollectedFromStorage to true');
           creep.memory.hasCollectedFromStorage = true;
         }
       }
@@ -149,7 +157,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    */
   handleSweeperCollect(creep)  {
     creep.memory.hasCollectedFromStorage = false;
@@ -174,7 +182,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    */
   handleTransfer(creep)  {
     creep.memory.isBusy = true;
@@ -198,7 +206,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    */
   handleBuild(creep)  {
     creep.memory.isBusy = true;
@@ -219,7 +227,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    */
   handleUpgrade(creep)  {
     creep.memory.isBusy = true;
@@ -240,7 +248,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    */
   handleRepair(creep)  {
     creep.memory.isBusy = true;
@@ -262,7 +270,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    * @param moveError {Number}
    * @param prioTargetIndex {Number}
    */
@@ -296,7 +304,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    * @param moveError {Number}
    */
   handleMoveErrorCollect(creep, moveError){
@@ -327,7 +335,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    * @param targets {[]}
    */
   handleTransferTargets(creep, targets){
@@ -363,7 +371,7 @@ const roleBase = {
   },
   
   /**
-   * @param creep {Creep}
+   * @param creep @type {Creep}
    */
   findBufferStructures(creep){
     return creep.room.find(FIND_STRUCTURES, {

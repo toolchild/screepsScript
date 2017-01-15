@@ -5,13 +5,21 @@ var statsConsole = require("statsConsole");
 
 var memoryHandler = {
   
+  
+  
+  
+  
+  
+  
+  
+  
   memoryNeedsUpdate: false,
   
   clearMemory() {
     for (var name in Memory.creeps) {
       if (!Game.creeps[name]) {
         delete Memory.creeps[name];
-        statsConsole.log('main: clearing non-existing creep memory:', name);
+        statsConsole.log('clearing non-existing creep memory:', name);
       }
     }
   },

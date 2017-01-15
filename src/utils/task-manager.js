@@ -1,6 +1,6 @@
-var statsConsole = require("statsConsole");
+// const statsConsole = require("statsConsole");
 
-var taskManager = {
+const taskManager = {
   
   /** @param {Creep} creep
    tasks

@@ -135,6 +135,7 @@ const roleBase = {
             this.handleMoveErrorCollect(creep, moveError);
           }
         } else {
+          statsConsole.log('base: ' + creep.name + ' setCollectedFromStorage to true');
           creep.memory.hasCollectedFromStorage = true;
         }
       }
