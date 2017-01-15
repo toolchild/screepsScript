@@ -1,3 +1,4 @@
+const _ = require('lodash');
 // original source: https://github.com/screepers/screeps-ConsoleStats.git
 
 //TODO some how I want this to work with https://github.com/Puciek/screeps-elk
@@ -509,7 +510,7 @@ const statsConsole = {
        let htmlEnd = "</log>";*/
       
       if (severity > 5) {
-        seveirty = 5;
+        severity = 5;
       } else if (severity < 0) {
         severity = 0;
       } else if (!Number.isInteger(severity)) {
@@ -527,13 +528,10 @@ const statsConsole = {
           spacing.repeat(boxWidth - message.length) +
           vbar +
           htmlEnd);
-        console.log(outputLog = outputLog +
-          htmlStart +
-          vbar +
-          message.substring(boxWidth - borderWidth) +
-          spacing.repeat(boxWidth - message.length) +
-          vbar +
-          htmlEnd);
+        
+        let outputLog = htmlStart + vbar + message.substring(boxWidth - borderWidth)
+          + spacing.repeat(boxWidth - message.length) + vbar + htmlEnd;
+        console.log(outputLog);
       } else if (message.length > boxWidth * 2) { // message is longer than boxWidth * 2
         console.log(htmlStart +
           vbar +

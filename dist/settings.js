@@ -21,7 +21,7 @@ const settings = {
   NUM_Up200: 0,
   NUM_Up550: 4,
   NUM_Up750: 4,
-  NUM_Up1550: 3,
+  NUM_Up1550: 2,
   
   NUM_DH800: 0,
   NUM_Cl100: 0,

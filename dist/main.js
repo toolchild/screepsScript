@@ -1,7 +1,7 @@
 const roleTower = require('role.tower');
 const statsConsole = require("statsConsole");
 const memoryHandler = require("memory-handler");
-const creepSpawner = require("creep-spawner");
+const creepManager = require("creep-manager");
 
 const tower1 = Game.getObjectById('587555c0ff22ce385737f1c7');
 const tower2 = Game.getObjectById('58791fd9fcfae81e151c2793');
@@ -11,13 +11,13 @@ module.exports.loop = function () {
   // try {
   memoryHandler.clearMemory();
   memoryHandler.fillMemory();
-  creepSpawner.prepareCreepsAmounts();
-  creepSpawner.logStats();
-  creepSpawner.respawnCreeps();
+  creepManager.prepareCreepsAmounts();
+  creepManager.logStats();
+  creepManager.respawnCreeps();
   roleTower.run(tower1);
   roleTower.run(tower2);
-  creepSpawner.handleCreeps();
-  printStatsConsole(creepSpawner.getCreepStats());
+  creepManager.handleCreeps();
+  printStatsConsole(creepManager.getCreepStats());
   // } catch (error) {console.log(error)}
   
 };

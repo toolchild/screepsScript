@@ -13,7 +13,7 @@ const consts = require('constants');
 
 const roomCapacity = Memory.home == null ? Game.spawns['Spawn1'].room.energyCapacityAvailable : Memory.home.room.energyCapacityAvailable;
 
-const creepSpawner = {
+const creepManager = {
   
   targetRoom: '',
   
@@ -340,5 +340,5 @@ const creepSpawner = {
   
 };
 
-module.exports = creepSpawner;
+module.exports = creepManager;
 

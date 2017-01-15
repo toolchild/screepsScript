@@ -1,6 +1,7 @@
 const taskManager = require('task-manager');
 const statsConsole = require("statsConsole");
 const settings = require('settings');
+const _ = require('lodash');
 
 const roleBase = {
   sources: null,
@@ -59,7 +60,7 @@ const roleBase = {
       statsConsole.log('base: ' + creep.name + ' go to exit: ' + exit + ' to: ' + creep.memory.targetRoomName);
       let moveError = creep.moveTo(creep.pos.findClosestByPath(exit));
       if (moveError != OK && moveError != ERR_BUSY) {
-        this.handleMoveErrorCollect(moveError);
+        this.handleMoveErrorCollect(creep, moveError);
       }
       return true;
     } else {
@@ -369,7 +370,7 @@ const roleBase = {
       }
       
       if (!closestTarget) {
-        statsConsole.log('base: ' + creep.name + ' collected from storage and will repair instead');
+        // statsConsole.log('base: ' + creep.name + ' collected from storage and will repair instead');
         willRepairInstead = true;
         this.handleRepair(creep);
       }
