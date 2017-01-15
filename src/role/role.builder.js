@@ -1,4 +1,4 @@
-const statsConsole = require("statsConsole");
+const statsConsole = require("consoleStats");
 
 const roleBuilder = {
 

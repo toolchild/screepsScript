@@ -1,5 +1,5 @@
 var taskManager = require('task-manager');
-var statsConsole = require("statsConsole");
+var statsConsole = require("consoleStats");
 const settings = require('settings');
 
 const roleBase = {
@@ -58,12 +58,12 @@ const roleBase = {
   
   handleHarvest(prioTargetIndex)
   {
-    // statsConsole.log('base: prio: ' + prioTargetIndex)
+    // consoleStats.log('base: prio: ' + prioTargetIndex)
     if (this.creep.memory.targetIndex == null) {
       this.creep.memory.targetIndex = prioTargetIndex == null ? 0 : prioTargetIndex;
     }
-    // statsConsole.log('base: target index: ' + this.creep.memory.targetIndex);
-    // statsConsole.log('base: this.sources: ' + this.sources);
+    // consoleStats.log('base: target index: ' + this.creep.memory.targetIndex);
+    // consoleStats.log('base: this.sources: ' + this.sources);
     let harvestError = this.creep.harvest(this.sources[this.creep.memory.targetIndex]);
     if (harvestError != OK) {
       let moveError = this.creep.moveTo(this.sources[this.creep.memory.targetIndex]);
@@ -86,7 +86,7 @@ const roleBase = {
   
   handleCollect()  {
     if (this.droppedSources && this.droppedSources.length > 0) {
-      // statsConsole.log('base: ' + this.creep.name + ' droppedSources: ' + this.droppedSources);
+      // consoleStats.log('base: ' + this.creep.name + ' droppedSources: ' + this.droppedSources);
       let closest = this.creep.pos.findClosestByRange(this.droppedSources);
       let gatherError = this.creep.pickup(closest);
       if (gatherError != OK) {
@@ -95,14 +95,14 @@ const roleBase = {
           this.handleMoveErrorCollect(moveError);
         }
       } else {
-        // statsConsole.log('base: ' + this.creep.name + ' gathering');
+        // consoleStats.log('base: ' + this.creep.name + ' gathering');
       }
     } else {
       // var log = 'base: ' + this.creep.name + ' found no droppedSources to collect';
       let bufferStructures = this.findBufferStructures();
-      // statsConsole.log(bufferStructures)
+      // consoleStats.log(bufferStructures)
       let containers = _.filter(bufferStructures, structure => structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > this.creep.carryCapacity / 2);
-      // statsConsole.log('base' + this.creep.name + ' containers: ' + containers)
+      // consoleStats.log('base' + this.creep.name + ' containers: ' + containers)
       let closest = containers && containers.length > 0 ? this.creep.pos.findClosestByRange(containers) : this.creep.pos.findClosestByRange(bufferStructures);
       
       if (this.creep.withdraw(closest, RESOURCE_ENERGY) != OK) {
@@ -111,7 +111,7 @@ const roleBase = {
           this.handleMoveErrorCollect(moveError);
         }
       } else {
-        // statsConsole.log('base: ' + this.creep.name + ' gathering from strcuture ' + closest);
+        // consoleStats.log('base: ' + this.creep.name + ' gathering from strcuture ' + closest);
       }
     }
     
@@ -119,7 +119,7 @@ const roleBase = {
       // log += (' switch to busy');
       this.creep.memory.isBusy = true;
     }
-    // statsConsole.log(log);
+    // consoleStats.log(log);
     
   },
   
@@ -132,7 +132,7 @@ const roleBase = {
           this.handleMoveErrorCollect(moveError);
         }
       } else {
-        // statsConsole.log('base: ' + this.creep.name + ' gathering');
+        // consoleStats.log('base: ' + this.creep.name + ' gathering');
       }
     } else {
       // let log = 'base: ' + this.creep.name + ' found no droppedSources to collect';
@@ -140,7 +140,7 @@ const roleBase = {
         log += (' switch to busy');
         this.creep.memory.isBusy = true;
       }
-      // statsConsole.log(log);
+      // consoleStats.log(log);
     }
   },
   
@@ -155,9 +155,9 @@ const roleBase = {
       }
     });
     // let storage = Game.getObjectById('5876f85b253a1daf341e47bf');
-    // statsConsole.log(storage.store[RESOURCE_ENERGY] + '/'+ storage.storeCapacity);
-    // statsConsole.log(memoryHandler.storageNeedsEnergy(this.creep));
-    // statsConsole.log('base ' + this.creep.name + ' transfer targets ' + targets);
+    // consoleStats.log(storage.store[RESOURCE_ENERGY] + '/'+ storage.storeCapacity);
+    // consoleStats.log(memoryHandler.storageNeedsEnergy(this.creep));
+    // consoleStats.log('base ' + this.creep.name + ' transfer targets ' + targets);
     if (targets.length > 0) {
       this.handleTransferTargets(targets);
     } else {
@@ -168,12 +168,12 @@ const roleBase = {
   handleBuild()  {
     this.creep.memory.isBusy = true;
     var targets = this.creep.room.find(FIND_CONSTRUCTION_SITES);
-    // statsConsole.log('base: ' + this.creep.name + ' constructionSites: ' + targets);
+    // consoleStats.log('base: ' + this.creep.name + ' constructionSites: ' + targets);
     if (targets.length > 0) {
       let closest = this.creep.pos.findClosestByRange(targets);
-      // statsConsole.log('base: ' + this.creep.name + ' closest: ' + closest);
+      // consoleStats.log('base: ' + this.creep.name + ' closest: ' + closest);
       let buildError = this.creep.build(closest);
-      // statsConsole.log('base: ' + this.creep.name + ' build Error: ' + buildError);
+      // consoleStats.log('base: ' + this.creep.name + ' build Error: ' + buildError);
       if (buildError == ERR_NOT_IN_RANGE) {
         let moveError = this.creep.moveTo(closest);
         this.handleMoveError(moveError);
@@ -187,7 +187,7 @@ const roleBase = {
     this.creep.memory.isBusy = true;
     if (this.creep.room.controller) {
       let rangeToController = this.creep.pos.getRangeTo(this.creep.room.controller);
-      // statsConsole.log(rangeToController);
+      // consoleStats.log(rangeToController);
       if (rangeToController <= 2) {
         if (rangeToController === 1 || this.creep.moveTo(this.creep.room.controller) == ERR_NO_PATH) {
           this.creep.upgradeController(this.creep.room.controller);
@@ -204,12 +204,12 @@ const roleBase = {
     this.creep.memory.isBusy = true;
     var closestDamagedStructure = this.creep.pos.findClosestByRange(FIND_STRUCTURES, {
       filter: (structure) => {
-        // statsConsole.log('structure.type = ' + structure.structureType);
+        // consoleStats.log('structure.type = ' + structure.structureType);
         return (structure.structureType != STRUCTURE_WALL && structure.hits < structure.hitsMax) || (structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax * settings.WALL_REPAIR_PER_ONE);
       }
     });
     
-    // statsConsole.log('base: ' + this.creep.name + " closest Target:" + closestDamagedStructure);
+    // consoleStats.log('base: ' + this.creep.name + " closest Target:" + closestDamagedStructure);
     if (closestDamagedStructure) {
       if (this.creep.repair(closestDamagedStructure) == ERR_NOT_IN_RANGE) {
         this.creep.moveTo(closestDamagedStructure)
@@ -222,11 +222,11 @@ const roleBase = {
   handleMoveError(moveError, prioTargetIndex)  {
     switch (moveError) {
       case -11: { // tired
-        // statsConsole.log('base: ' + this.creep.name + ' is tired.');
+        // consoleStats.log('base: ' + this.creep.name + ' is tired.');
         break;
       }
       case -4: { // spawning
-        // statsConsole.log('base: ' + this.creep.name + ' is spawning.');
+        // consoleStats.log('base: ' + this.creep.name + ' is spawning.');
         break;
       }
       case -7: {
@@ -235,14 +235,14 @@ const roleBase = {
       }
       default : {
         statsConsole.log('base: ' + this.creep.name + ' moveError: ' + moveError);
-        // statsConsole.log('base: ' + this.creep.name + ' targetIndex: ' + this.creep.memory.targetIndex + ' prioTargetIndex is null: ' + (prioTargetIndex == null));
+        // consoleStats.log('base: ' + this.creep.name + ' targetIndex: ' + this.creep.memory.targetIndex + ' prioTargetIndex is null: ' + (prioTargetIndex == null));
         this.creep.memory.targetIndex = prioTargetIndex == null ? this.creep.memory.targetIndex + 1 : this.creep.memory.targetIndex - 1;
         if (this.creep.memory.targetIndex > this.sources.length || this.creep.memory.targetIndex < 0) {
           this.creep.memory.targetIndex = null;
-          // statsConsole.log('base: ' + this.creep.name + ' targetIndex reset');
+          // consoleStats.log('base: ' + this.creep.name + ' targetIndex reset');
           
         } else {
-          // statsConsole.log('base: ' + this.creep.name + ' targetIndex changed: ' + this.creep.memory.targetIndex + ' source: ' + this.sources[this.creep.memory.targetIndex]);
+          // consoleStats.log('base: ' + this.creep.name + ' targetIndex changed: ' + this.creep.memory.targetIndex + ' source: ' + this.sources[this.creep.memory.targetIndex]);
         }
       }
     }
@@ -251,11 +251,11 @@ const roleBase = {
   handleMoveErrorCollect(moveError){
     switch (moveError) {
       case -11: { // tired
-        // statsConsole.log('base: ' + this.creep.name + ' is tired.');
+        // consoleStats.log('base: ' + this.creep.name + ' is tired.');
         break;
       }
       case -4: { // spawning
-        // statsConsole.log('base: ' + this.creep.name + ' is spawning.');
+        // consoleStats.log('base: ' + this.creep.name + ' is spawning.');
         break;
       }
       case -7: {
@@ -263,13 +263,13 @@ const roleBase = {
         break;
       }
       default : {
-        // statsConsole.log('base: ' + this.creep.name + ' moveError: ' + moveError);
+        // consoleStats.log('base: ' + this.creep.name + ' moveError: ' + moveError);
         if (this.creep.memory.targetIndex > this.droppedSources.length) {
           this.creep.memory.targetIndex = null;
-          // statsConsole.log('base: ' + this.creep.name + ' targetIndex reset');
+          // consoleStats.log('base: ' + this.creep.name + ' targetIndex reset');
           
         } else {
-          // statsConsole.log('base: ' + this.creep.name + ' targetIndex changed: ' + this.droppedSources[this.creep.memory.targetIndex]);
+          // consoleStats.log('base: ' + this.creep.name + ' targetIndex changed: ' + this.droppedSources[this.creep.memory.targetIndex]);
         }
       }
     }

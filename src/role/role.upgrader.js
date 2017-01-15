@@ -1,5 +1,5 @@
 var roleBase = require('role.base');
-var statsConsole = require("statsConsole");
+var statsConsole = require("consoleStats");
 
 var roleUpgrader = {
 
@@ -18,8 +18,8 @@ var roleUpgrader = {
         this.droppedSources = this.creep.room.find(FIND_DROPPED_RESOURCES,
             {
                 filter: dropped => {
-                    // statsConsole.log('coll: '+this.creep.name +' '+dropped.energy + '/' + this.creep.carryCapacity);
-                    // statsConsole.log('coll: '+this.creep.name +' ' +(dropped.energy > this.creep.carryCapacity));
+                    // consoleStats.log('coll: '+this.creep.name +' '+dropped.energy + '/' + this.creep.carryCapacity);
+                    // consoleStats.log('coll: '+this.creep.name +' ' +(dropped.energy > this.creep.carryCapacity));
                     return dropped.energy > this.creep.carryCapacity/3;
                 }
             });

@@ -1,6 +1,6 @@
 var roleBase = require('role.base');
 var taskManager = require('task-manager');
-var statsConsole = require("statsConsole");
+var statsConsole = require("consoleStats");
 
 
 
@@ -25,12 +25,12 @@ var roleLooter = {
 
 
     handleTask(){
-        // statsConsole.log(Game.map.getTerrainAt(this.creep.pos));
-        // _.forEach(Game.map.describeExits(this.creep.pos.roomName), (exit => statsConsole.log(exit)));
+        // consoleStats.log(Game.map.getTerrainAt(this.creep.pos));
+        // _.forEach(Game.map.describeExits(this.creep.pos.roomName), (exit => consoleStats.log(exit)));
         switch (this.creep.memory.task) {
             case 0: {
-                // statsConsole.log('loot: ' + creep.name + ' is home');
-                // statsConsole.log(creep.home.name == creep.memory.home.home.name);
+                // consoleStats.log('loot: ' + creep.name + ' is home');
+                // consoleStats.log(creep.home.name == creep.memory.home.home.name);
                 if (!roleBase.willGoTargetRoom()) {
                     roleBase.handleDistanceHarvest(1);
                     this.creep.say('h');

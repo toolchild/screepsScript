@@ -9,7 +9,7 @@ const roleRepairer = require('role.repairer');
 const roleTower = require('role.tower');
 const settings = require('settings');
 const consts = require('constants');
-const statsConsole = require("statsConsole");
+const statsConsole = require("consoleStats");
 const memoryHandler = require("memory-handler");
 
 let targetRoom = '';
@@ -82,7 +82,7 @@ module.exports.loop = function () {
     
     handleStats();
     // let totalTime= Game.cpu.getUsed() - loopCPUStart;
-    // statsConsole.log('\tCPU loop:', value.toFixed(1) + ' of: ' + Game.cpu.tickLimit + ' which is: ' + (value / Game.cpu.tickLimit * 100).toFixed(1) + '% ' +
+    // consoleStats.log('\tCPU loop:', value.toFixed(1) + ' of: ' + Game.cpu.tickLimit + ' which is: ' + (value / Game.cpu.tickLimit * 100).toFixed(1) + '% ' +
     //   'and: ' + (value / Game.cpu.limit * 100).toFixed(1) + '% of the limit: ' + Game.cpu.limit + ' of: ' + Game.cpu.bucket);
   } catch (error) {console.log(error)}
   
@@ -141,7 +141,7 @@ const logStats = function () {
     statsConsole.log('base: spawning: ' + Game.spawns['Spawn1'].spawning.name);
   }
   
-  // statsConsole.log('home:  ' + Memory.home.room.find(FIND_SOURCES) + ' roomSources: ' + Memory.home.roomSources);
+  // consoleStats.log('home:  ' + Memory.home.room.find(FIND_SOURCES) + ' roomSources: ' + Memory.home.roomSources);
   
 };
 

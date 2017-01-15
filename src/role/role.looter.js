@@ -1,5 +1,5 @@
 var taskManager = require('task-manager');
-var statsConsole = require("statsConsole");
+var statsConsole = require("consoleStats");
 
 
 var roleLooter = {
@@ -8,12 +8,12 @@ var roleLooter = {
     run: function (creep) {
 
         this.decideTask(creep);
-        // statsConsole.log('loot: ' + creep.name + ' home ' + creep.home + ' targetRoom: ' + creep.memory.targetRoomName + ' home: ' + creep.memory.home.home.name);
+        // consoleStats.log('loot: ' + creep.name + ' home ' + creep.home + ' targetRoom: ' + creep.memory.targetRoomName + ' home: ' + creep.memory.home.home.name);
 
         switch (creep.memory.task) {
             case 0: {
-                // statsConsole.log('loot: ' + creep.name + ' is home');
-                // statsConsole.log(creep.home.name == creep.memory.home.home.name);
+                // consoleStats.log('loot: ' + creep.name + ' is home');
+                // consoleStats.log(creep.home.name == creep.memory.home.home.name);
 
                 if (creep.room.name == creep.memory.home.room.name) {
 

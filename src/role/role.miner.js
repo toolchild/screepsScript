@@ -1,5 +1,5 @@
 var roleBase = require('role.base');
-var statsConsole = require("statsConsole");
+var statsConsole = require("consoleStats");
 
 var roleMiner = {
   
@@ -40,9 +40,9 @@ var roleMiner = {
           this.handleMoveError(moveError);
         }
       } else {
-        // statsConsole.log('mine: ' + this.creep.name + ' gathering');
+        // consoleStats.log('mine: ' + this.creep.name + ' gathering');
       }
-      // statsConsole.log('mine: ' + this.creep.name + ' targetIndex: '+ targetIndex + ' source: ' + this.sources[targetIndex]);
+      // consoleStats.log('mine: ' + this.creep.name + ' targetIndex: '+ targetIndex + ' source: ' + this.sources[targetIndex]);
     }
   },
   
@@ -52,14 +52,14 @@ var roleMiner = {
         return structure.structureType == STRUCTURE_CONTAINER && structure.pos.inRangeTo(this.sources[targetIndex], 1) && !this.creep.pos.isEqualTo(structure.pos);
       }
     });
-    // statsConsole.log('mine: ' + this.creep.name + ' containerTarget: ' + targets)
+    // consoleStats.log('mine: ' + this.creep.name + ' containerTarget: ' + targets)
     return targets;
   },
   
   handleMoveError(moveError){
     switch (moveError) {
       case -11: // tired
-        // statsConsole.log('mine: ' + this.creep.name + ' tired');
+        // consoleStats.log('mine: ' + this.creep.name + ' tired');
         break;
       case -4: // spawning
         statsConsole.log('mine: ' + this.creep.name + ' spawning');

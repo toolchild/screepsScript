@@ -1,7 +1,7 @@
 /**
  * Created by Bob on 15.01.2017.
  */
-var statsConsole = require("statsConsole");
+var statsConsole = require("consoleStats");
 
 var memoryHandler = {
   
@@ -26,7 +26,7 @@ var memoryHandler = {
       };
     } else {
       // Memory.home.room = Game.spawns['Spawn1'].room;
-      // statsConsole.log('main memory: roomSources: ' + Memory.home.roomSources);
+      // consoleStats.log('main memory: roomSources: ' + Memory.home.roomSources);
     }
     
   }

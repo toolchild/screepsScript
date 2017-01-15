@@ -1,4 +1,4 @@
-var statsConsole = require("statsConsole");
+var statsConsole = require("consoleStats");
 
 var creepSpawner = {};
 
