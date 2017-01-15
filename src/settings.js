@@ -16,7 +16,7 @@ const settings = {
   NUM_Col250: 3,
   NUM_Col550: 3,
   NUM_Col750: 3,
-  NUM_Col1300: 2,
+  NUM_Col1300: 1,
   
   NUM_Up200: 0,
   NUM_Up550: 3,

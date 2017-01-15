@@ -1,5 +1,5 @@
 const settings = require('settings');
-var statsConsole = require("consoleStats");
+var statsConsole = require("statsConsole");
 
 var roleTower = {
   

@@ -9,7 +9,7 @@ const roleRepairer = require('role.repairer');
 const roleTower = require('role.tower');
 const settings = require('settings');
 const consts = require('constants');
-const statsConsole = require("consoleStats");
+const statsConsole = require("statsConsole");
 const memoryHandler = require("memory-handler");
 
 let targetRoom = '';
@@ -70,21 +70,21 @@ const tower2 = Game.getObjectById('58791fd9fcfae81e151c2793');
 
 module.exports.loop = function () {
   
-  try {
-    memoryHandler.clearMemory();
-    memoryHandler.fillMemory();
-    prepareCreepsAmounts();
-    logStats();
-    respawnCreeps();
-    roleTower.run(tower1);
-    roleTower.run(tower2);
-    handleCreeps();
-    
-    handleStats();
-    // let totalTime= Game.cpu.getUsed() - loopCPUStart;
-    // consoleStats.log('\tCPU loop:', value.toFixed(1) + ' of: ' + Game.cpu.tickLimit + ' which is: ' + (value / Game.cpu.tickLimit * 100).toFixed(1) + '% ' +
-    //   'and: ' + (value / Game.cpu.limit * 100).toFixed(1) + '% of the limit: ' + Game.cpu.limit + ' of: ' + Game.cpu.bucket);
-  } catch (error) {console.log(error)}
+  // try {
+  memoryHandler.clearMemory();
+  memoryHandler.fillMemory();
+  prepareCreepsAmounts();
+  logStats();
+  respawnCreeps();
+  roleTower.run(tower1);
+  roleTower.run(tower2);
+  handleCreeps();
+  
+  handleStats();
+  // let totalTime= Game.cpu.getUsed() - loopCPUStart;
+  // consoleStats.log('\tCPU loop:', value.toFixed(1) + ' of: ' + Game.cpu.tickLimit + ' which is: ' + (value / Game.cpu.tickLimit * 100).toFixed(1) + '% ' +
+  //   'and: ' + (value / Game.cpu.limit * 100).toFixed(1) + '% of the limit: ' + Game.cpu.limit + ' of: ' + Game.cpu.bucket);
+  // } catch (error) {console.log(error)}
   
 };
 
@@ -328,10 +328,10 @@ const handleCreeps = function () {
 };
 
 const handleSpawnError = function (spawnError, role) {
-  if (role != null && spawnError.name && spawnError.name.startsWith(role)) {
+  if (role != null && !spawnError.name) {
     switch (spawnError) {
       case ERR_BUSY: {
-        statsConsole.log('main: ' + role + ' cannot spawn because spawn is busy')
+        // statsConsole.log('main: ' + role + ' cannot spawn because spawn is busy')
         break;
       }
       case ERR_NOT_ENOUGH_ENERGY: {
@@ -365,11 +365,12 @@ const handleStats = () => {
   
   statsConsole.run(myStats); // Run Stats collection
   if ((Game.time % 5) === 0) {
+    console.log(statsConsole.displayHistogram(200, 20));
+    console.log(statsConsole.displayStats({
+        totalWidth: 240,
+        cpuTitle: ' CPU '
+      }
+    ));
+    console.log(statsConsole.displayLogs(undefined, {width: 240})); // width must be greater than the longest 1 liner message
   }
-  console.log(statsConsole.displayHistogram(200, 20));
-  console.log(statsConsole.displayStats({
-    totalWidth: 240,
-    cpuTitle: ' CPU '
-  }));
-  console.log(statsConsole.displayLogs(undefined, {width: 240})); // width must be greater than the longest 1 liner message
 };

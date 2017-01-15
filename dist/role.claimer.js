@@ -4,12 +4,12 @@ var roleClaimer = {
 
     /** @param {Creep} creep **/
     run: function (creep) {
-        // statsConsole.log('claim: ' + creep.name + ' home ' + creep.home + ' targetRoomName: ' + creep.memory.targetRoomName + ' home: ' + creep.memory.home.home.name);
+        // consoleStats.log('claim: ' + creep.name + ' home ' + creep.home + ' targetRoomName: ' + creep.memory.targetRoomName + ' home: ' + creep.memory.home.home.name);
 
         if (creep.room.name === creep.memory.home.room.name) {
             this.exitRoom(creep);
         } else if (creep.room.controller) {
-            // statsConsole.log('claim: ' + creep.name + ' is in targetRoom and found Controller');
+            // consoleStats.log('claim: ' + creep.name + ' is in targetRoom and found Controller');
             let claimError = creep.claimController(creep.room.controller);
             switch (claimError) {
                 case ERR_NOT_IN_RANGE: {
@@ -24,7 +24,7 @@ var roleClaimer = {
                     break;
                 }
                 case ERR_GCL_NOT_ENOUGH: {
-                    // statsConsole.log('claim: ' + creep.name + ' cannot claim because the GCL is too low.');
+                    // consoleStats.log('claim: ' + creep.name + ' cannot claim because the GCL is too low.');
                     let reserveError = creep.reserveController(creep.room.controller);
 
                     if (reserveError == ERR_NOT_IN_RANGE) {

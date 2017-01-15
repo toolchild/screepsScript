@@ -1,5 +1,5 @@
 var roleBase = require('role.base');
-var statsConsole = require("consoleStats");
+var statsConsole = require("statsConsole");
 
 
 var roleRepairer = {
@@ -29,16 +29,16 @@ var roleRepairer = {
     },
 
     decideAndHandleTask(){
-        if (!roleBase.willGoHome()) {
+        if (!roleBase.willGoHome(this.creep)) {
             if (this.creep.carry.energy === 0) {
                 this.creep.memory.isBusy = false;
             }
 
             if (this.creep.carry.energy < this.creep.carryCapacity && !this.creep.memory.isBusy) {
-                roleBase.handleCollect();
+                roleBase.handleCollect(this.creep);
                 this.creep.say('c');
             } else {
-                roleBase.handleRepair();
+                roleBase.handleRepair(this.creep);
                 this.creep.say('r');
             }
         }

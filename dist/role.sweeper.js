@@ -10,7 +10,7 @@ var roleSweeper = {
 
     run: function (creep) {
         this.init(creep);
-        roleBase.decideTask();
+        roleBase.decideTask(this.creep);
         this.handleTask();
     },
 
@@ -19,8 +19,8 @@ var roleSweeper = {
         this.droppedSources = this.creep.room.find(FIND_DROPPED_RESOURCES,
             {
                 filter: dropped => {
-                    // statsConsole.log('coll: '+this.creep.name +' '+dropped.energy + '/' + this.creep.carryCapacity);
-                    // statsConsole.log('coll: '+this.creep.name +' ' +(dropped.energy > this.creep.carryCapacity));
+                    // consoleStats.log('coll: '+this.creep.name +' '+dropped.energy + '/' + this.creep.carryCapacity);
+                    // consoleStats.log('coll: '+this.creep.name +' ' +(dropped.energy > this.creep.carryCapacity));
                     return (dropped.energy > this.creep.carryCapacity && !_.contains(_.map(dropped.pos.look(), object => object.type), 'creep')) || dropped.energy > 250;
                 }
             });
@@ -30,26 +30,26 @@ var roleSweeper = {
 
     /** @param {Creep} creep **/
     handleTask() {
-        if (!roleBase.willGoHome()) {
+        if (!roleBase.willGoHome(this.creep)) {
             switch (this.creep.memory.task) {
                 case 0: {
-                    roleBase.handleCollect();
+                    roleBase.handleCollect(this.creep);
                     this.creep.say('c');
                     break;
                 }
                 case 1: {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                     break;
                 }
                 case 2: {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                     break;
                 }
 
                 case 3: {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                     break;
                 }

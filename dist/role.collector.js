@@ -10,8 +10,8 @@ var roleCollector = {
 
     run: function (creep) {
         this.init(creep);
-        roleBase.decideTask();
-        this.handleTask();
+        roleBase.decideTask(creep);
+        this.handleTask(creep);
     },
 
     init(creep){
@@ -19,8 +19,8 @@ var roleCollector = {
         this.droppedSources = this.creep.room.find(FIND_DROPPED_RESOURCES,
             {
                 filter: dropped => {
-                    // statsConsole.log('coll: '+this.creep.name +' '+dropped.energy + '/' + this.creep.carryCapacity);
-                    // statsConsole.log('coll: '+this.creep.name +' ' +(dropped.energy > this.creep.carryCapacity));
+                    // consoleStats.log('coll: '+this.creep.name +' '+dropped.energy + '/' + this.creep.carryCapacity);
+                    // consoleStats.log('coll: '+this.creep.name +' ' +(dropped.energy > this.creep.carryCapacity));
                     return dropped.energy > this.creep.carryCapacity/2;
                 }
             });
@@ -30,26 +30,26 @@ var roleCollector = {
 
     /** @param {Creep} creep **/
     handleTask() {
-        if (!roleBase.willGoHome()) {
+        if (!roleBase.willGoHome(this.creep)) {
             switch (this.creep.memory.task) {
                 case 0: {
-                    roleBase.handleCollect();
+                    roleBase.handleCollect(this.creep);
                     this.creep.say('c');
                     break;
                 }
                 case 1: {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                     break;
                 }
                 case 2: {
-                    roleBase.handleBuild();
+                    roleBase.handleBuild(this.creep);
                     this.creep.say('b');
                     break;
                 }
 
                 case 3: {
-                    roleBase.handleUpgrade();
+                    roleBase.handleUpgrade(this.creep);
                     this.creep.say('u');
                     break;
                 }

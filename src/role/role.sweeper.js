@@ -1,6 +1,6 @@
 const taskManager = require('task-manager');
 const roleBase = require('role.base');
-var statsConsole = require("consoleStats");
+var statsConsole = require("statsConsole");
 
 
 var roleSweeper = {
@@ -10,7 +10,7 @@ var roleSweeper = {
 
     run: function (creep) {
         this.init(creep);
-        roleBase.decideTask();
+        roleBase.decideTask(this.creep);
         this.handleTask();
     },
 
@@ -30,26 +30,26 @@ var roleSweeper = {
 
     /** @param {Creep} creep **/
     handleTask() {
-        if (!roleBase.willGoHome()) {
+        if (!roleBase.willGoHome(this.creep)) {
             switch (this.creep.memory.task) {
                 case 0: {
-                    roleBase.handleCollect();
+                    roleBase.handleCollect(this.creep);
                     this.creep.say('c');
                     break;
                 }
                 case 1: {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                     break;
                 }
                 case 2: {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                     break;
                 }
 
                 case 3: {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                     break;
                 }

@@ -8,7 +8,7 @@ var roleMiner = {
   /** @param {Creep} creep **/
   run: function (creep) {
     this.init(creep);
-    if (!roleBase.willGoHome()) {
+    if (!roleBase.willGoHome(this.creep)) {
       this.handleMine();
       this.creep.say('m');
     }
@@ -25,12 +25,12 @@ var roleMiner = {
     let targetIndex = this.creep.memory.role.startsWith('m0') ? 0 : 1;
     let container = this.findOwnFreeBufferStructures(targetIndex)[0];
     if (container != null) {
-      statsConsole.log('mine: ' + this.creep.name + ' container: ' + container);
+      // statsConsole.log('mine: ' + this.creep.name + ' container: ' + container);
       let moveError = this.creep.moveTo(container);
       if (moveError != OK) {
         this.handleMoveError(moveError);
       } else {
-        statsConsole.log('mine: ' + this.creep.name + ' moving to container.');
+        // statsConsole.log('mine: ' + this.creep.name + ' moving to container.');
       }
     } else {
       let harvestError = this.creep.harvest(this.sources[targetIndex]);
@@ -40,9 +40,9 @@ var roleMiner = {
           this.handleMoveError(moveError);
         }
       } else {
-        // statsConsole.log('mine: ' + this.creep.name + ' gathering');
+        // consoleStats.log('mine: ' + this.creep.name + ' gathering');
       }
-      // statsConsole.log('mine: ' + this.creep.name + ' targetIndex: '+ targetIndex + ' source: ' + this.sources[targetIndex]);
+      // consoleStats.log('mine: ' + this.creep.name + ' targetIndex: '+ targetIndex + ' source: ' + this.sources[targetIndex]);
     }
   },
   
@@ -52,14 +52,14 @@ var roleMiner = {
         return structure.structureType == STRUCTURE_CONTAINER && structure.pos.inRangeTo(this.sources[targetIndex], 1) && !this.creep.pos.isEqualTo(structure.pos);
       }
     });
-    // statsConsole.log('mine: ' + this.creep.name + ' containerTarget: ' + targets)
+    // consoleStats.log('mine: ' + this.creep.name + ' containerTarget: ' + targets)
     return targets;
   },
   
   handleMoveError(moveError){
     switch (moveError) {
       case -11: // tired
-        // statsConsole.log('mine: ' + this.creep.name + ' tired');
+        // consoleStats.log('mine: ' + this.creep.name + ' tired');
         break;
       case -4: // spawning
         statsConsole.log('mine: ' + this.creep.name + ' spawning');

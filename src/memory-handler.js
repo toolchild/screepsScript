@@ -1,7 +1,7 @@
 /**
  * Created by Bob on 15.01.2017.
  */
-var statsConsole = require("consoleStats");
+var statsConsole = require("statsConsole");
 
 var memoryHandler = {
   
@@ -25,8 +25,8 @@ var memoryHandler = {
         roomSources: _.map(_.sortBy(Game.spawns['Spawn1'].room.find(FIND_SOURCES), (source) => source.id), (source) => source.id),
       };
     } else {
-      // Memory.home.room = Game.spawns['Spawn1'].room;
-      // consoleStats.log('main memory: roomSources: ' + Memory.home.roomSources);
+      Memory.home.room = Game.spawns['Spawn1'].room; // TODO: this holds some values needed to be updated each tick, so it shouldn't be in Memory.
+      // statsConsole.log('main memory: roomSources: ' + Memory.home.roomSources);
     }
     
   }

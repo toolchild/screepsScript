@@ -1,4 +1,4 @@
-var statsConsole = require("consoleStats");
+var statsConsole = require("statsConsole");
 
 var taskManager = {
   
@@ -19,7 +19,10 @@ var taskManager = {
     }
     if (creep.carry.energy < creep.carryCapacity && !creep.memory.isBusy) {
       return 0;
-    } else if (room.energyAvailable < room.energyCapacityAvailable || this.towerNeedsEnergy(creep) || (this.storageNeedsEnergy(creep) && constructionSites.length == 0)) {
+    } else if ((room.energyAvailable < room.energyCapacityAvailable
+      || this.towerNeedsEnergy(creep)
+      || (this.storageNeedsEnergy(creep) && constructionSites.length == 0))
+    ) {
       return 1;
     } else if (constructionSites.length > 0) {
       return 2;

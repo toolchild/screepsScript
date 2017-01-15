@@ -1,3 +1,6 @@
+
+// original source: https://github.com/screepers/screeps-ConsoleStats.git
+
 //TODO some how I want this to work with https://github.com/Puciek/screeps-elk
 var useUtilsLogger = false;
 try {

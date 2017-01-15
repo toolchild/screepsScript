@@ -25,14 +25,14 @@ var roleLooter = {
 
 
     handleTask(){
-        // statsConsole.log(Game.map.getTerrainAt(this.creep.pos));
-        // _.forEach(Game.map.describeExits(this.creep.pos.roomName), (exit => statsConsole.log(exit)));
+        // consoleStats.log(Game.map.getTerrainAt(this.creep.pos));
+        // _.forEach(Game.map.describeExits(this.creep.pos.roomName), (exit => consoleStats.log(exit)));
         switch (this.creep.memory.task) {
             case 0: {
-                // statsConsole.log('loot: ' + creep.name + ' is home');
-                // statsConsole.log(creep.home.name == creep.memory.home.home.name);
-                if (!roleBase.willGoTargetRoom()) {
-                    roleBase.handleDistanceHarvest(1);
+                // consoleStats.log('loot: ' + creep.name + ' is home');
+                // consoleStats.log(creep.home.name == creep.memory.home.home.name);
+                if (!roleBase.willGoTargetRoom(this.creep)) {
+                    roleBase.handleDistanceHarvest(this.creep,1);
                     this.creep.say('h');
                 } else {
                     this.creep.say('cr')
@@ -41,15 +41,15 @@ var roleLooter = {
             }
             case 1: {
                 if (this.creep.room.name != this.creep.memory.home.room.name) {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     if (!this.creep.memory.isBusy) {
-                        roleBase.willGoHome();
+                        roleBase.willGoHome(this.creep);
                         this.creep.say('cr');
                     } else {
                         this.creep.say('t')
                     }
                 } else {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                 }
                 break;
@@ -57,9 +57,9 @@ var roleLooter = {
 
             case 2: {
                 if (this.creep.room.name != this.creep.memory.home.room.name) {
-                    roleBase.handleBuild();
+                    roleBase.handleBuild(this.creep);
                     if (!this.creep.memory.isBusy) {
-                        roleBase.willGoHome();
+                        roleBase.willGoHome(this.creep);
                         this.creep.say('cr');
                     } else {
                         this.creep.say('b')
@@ -74,15 +74,15 @@ var roleLooter = {
 
             case 3: {
                 if (this.creep.room.name != this.creep.memory.home.room.name) {
-                    roleBase.handleUpgrade();
+                    roleBase.handleUpgrade(this.creep);
                     if (!this.creep.memory.isBusy) {
-                        roleBase.willGoHome();
+                        roleBase.willGoHome(this.creep);
                         this.creep.say('cr');
                     } else {
                         this.creep.say('u')
                     }
                 } else {
-                    roleBase.handleUpgrade();
+                    roleBase.handleUpgrade(this.creep);
                     this.creep.say('u');
                 }
                 break;

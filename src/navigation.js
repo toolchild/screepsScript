@@ -1,4 +1,4 @@
-var statsConsole = require("consoleStats");
+var statsConsole = require("statsConsole");
 
 var navigation = {}
 

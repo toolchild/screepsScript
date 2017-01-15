@@ -16,7 +16,7 @@ const roleWorker = {
     /** @param {Creep} creep **/
     run(creep){
         this.init(creep);
-        roleBase.decideTask();
+        roleBase.decideTask(this.creep);
         this.handleTask()
     },
 
@@ -28,27 +28,27 @@ const roleWorker = {
     },
 
     handleTask(){
-        if (!roleBase.willGoHome()) {
+        if (!roleBase.willGoHome(this.creep)) {
             switch (this.creep.memory.task) {
                 case 0: {
-                    roleBase.handleHarvest();
+                    roleBase.handleHarvest(this.creep);
                     this.creep.say('h');
                     break;
                 }
                 case 1: {
-                    roleBase.handleTransfer();
+                    roleBase.handleTransfer(this.creep);
                     this.creep.say('t');
                     break;
                 }
 
                 case 2: {
-                    roleBase.handleBuild();
+                    roleBase.handleBuild(this.creep);
                     this.creep.say('b');
                     break;
                 }
 
                 case 3: {
-                    roleBase.handleUpgrade();
+                    roleBase.handleUpgrade(this.creep);
                     this.creep.say('u');
                     break;
                 }

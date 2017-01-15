@@ -25,7 +25,7 @@ var memoryHandler = {
         roomSources: _.map(_.sortBy(Game.spawns['Spawn1'].room.find(FIND_SOURCES), (source) => source.id), (source) => source.id),
       };
     } else {
-      // Memory.home.room = Game.spawns['Spawn1'].room;
+      Memory.home.room = Game.spawns['Spawn1'].room; // TODO: this holds some values needed to be updated each tick, so it shouldn't be in Memory.
       // statsConsole.log('main memory: roomSources: ' + Memory.home.roomSources);
     }
     

@@ -1,5 +1,5 @@
 var roleBase = require('role.base');
-var statsConsole = require("consoleStats");
+var statsConsole = require("statsConsole");
 
 var roleMiner = {
   
@@ -8,7 +8,7 @@ var roleMiner = {
   /** @param {Creep} creep **/
   run: function (creep) {
     this.init(creep);
-    if (!roleBase.willGoHome()) {
+    if (!roleBase.willGoHome(this.creep)) {
       this.handleMine();
       this.creep.say('m');
     }
@@ -25,12 +25,12 @@ var roleMiner = {
     let targetIndex = this.creep.memory.role.startsWith('m0') ? 0 : 1;
     let container = this.findOwnFreeBufferStructures(targetIndex)[0];
     if (container != null) {
-      statsConsole.log('mine: ' + this.creep.name + ' container: ' + container);
+      // statsConsole.log('mine: ' + this.creep.name + ' container: ' + container);
       let moveError = this.creep.moveTo(container);
       if (moveError != OK) {
         this.handleMoveError(moveError);
       } else {
-        statsConsole.log('mine: ' + this.creep.name + ' moving to container.');
+        // statsConsole.log('mine: ' + this.creep.name + ' moving to container.');
       }
     } else {
       let harvestError = this.creep.harvest(this.sources[targetIndex]);

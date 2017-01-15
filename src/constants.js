@@ -1,4 +1,4 @@
-var statsConsole = require("consoleStats");
+var statsConsole = require("statsConsole");
 
 const settings = {
   E_LEVEL_250: 250,
