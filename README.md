@@ -1,8 +1,7 @@
 
-just put the contents of src/ into your scripts folder for screeps
+#Usage
 
-Screeps does not allow a folder structure, you will have to copy all files in folder to the folder of your branch
-
+just put the contents of dist/ into your scripts folder for screeps
 e.g. for Windows: ``C:\Users\YOUR_USERNAME\AppData\Local\Screeps\scripts\screeps.com\default``
 
 ---
