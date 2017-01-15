@@ -19,14 +19,17 @@ const settings = {
   NUM_Col1300: 1,
   
   NUM_Up200: 0,
-  NUM_Up550: 3,
-  NUM_Up750: 5,
+  NUM_Up550: 4,
+  NUM_Up750: 4,
+  NUM_Up1550: 3,
   
   NUM_DH800: 0,
   NUM_Cl100: 0,
   
   WALL_REPAIR_PER_ONE: 0.0012, // 0,0001 = 30k
   RAMPART_REPAIR_VALUE: 150000, // changes with controller level
+  
+  MIN_PICPUP_ENERGY : 100
   
 };
 

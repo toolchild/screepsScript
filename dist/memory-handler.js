@@ -1,9 +1,9 @@
 /**
  * Created by Bob on 15.01.2017.
  */
-var statsConsole = require("statsConsole");
+const statsConsole = require("statsConsole");
 
-var memoryHandler = {
+const memoryHandler = {
   
   
   
@@ -16,7 +16,7 @@ var memoryHandler = {
   memoryNeedsUpdate: false,
   
   clearMemory() {
-    for (var name in Memory.creeps) {
+    for (let name in Memory.creeps) {
       if (!Game.creeps[name]) {
         delete Memory.creeps[name];
         statsConsole.log('clearing non-existing creep memory:', name);

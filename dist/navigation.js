@@ -1,6 +1,6 @@
-var statsConsole = require("statsConsole");
+// const statsConsole = require("statsConsole");
 
-var navigation = {}
+const navigation = {};
 
 module.exports = navigation;
 

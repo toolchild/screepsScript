@@ -11,8 +11,7 @@ const roleRepairer = require('role.repairer');
 const settings = require('settings');
 const consts = require('constants');
 
-
-const  roomCapacity = Memory.home == null ? Game.spawns['Spawn1'].room.energyCapacityAvailable : Memory.home.room.energyCapacityAvailable;
+const roomCapacity = Memory.home == null ? Game.spawns['Spawn1'].room.energyCapacityAvailable : Memory.home.room.energyCapacityAvailable;
 
 const creepSpawner = {
   
@@ -40,7 +39,8 @@ const creepSpawner = {
   
   numUp200: 0,
   numUp550: roomCapacity >= consts.E_LEVEL_550 && roomCapacity < consts.E_LEVEL_750 ? settings.NUM_Up550 : 0,
-  numUp750: roomCapacity >= consts.E_LEVEL_750 ? settings.NUM_Up750 : 0,
+  numUp750: roomCapacity >= consts.E_LEVEL_750 && roomCapacity < consts.E_LEVEL_1550 ? settings.NUM_Up750 : 0,
+  numUp1550: roomCapacity >= consts.E_LEVEL_1550 ? settings.NUM_Up1550 : 0,
   
   numDH800: settings.NUM_DH800,
   numCl100: settings.NUM_Cl100,
@@ -55,7 +55,7 @@ const creepSpawner = {
   
   dH800: null, cl100: null,
   
-  up200: null, up550: null, up750: null,
+  up200: null, up550: null, up750: null, up1550: null,
   
   prepareCreepsAmounts ()  {
     this.s100 = _.filter(Game.creeps, (creep) => creep.name.startsWith('s100'));
@@ -76,6 +76,7 @@ const creepSpawner = {
     this.up200 = _.filter(Game.creeps, (creep) => creep.memory.role == 'up200');
     this.up550 = _.filter(Game.creeps, (creep) => creep.memory.role == 'up550');
     this.up750 = _.filter(Game.creeps, (creep) => creep.memory.role == 'up750');
+    this.up1550 = _.filter(Game.creeps, (creep) => creep.memory.role == 'up1550');
     
     this.cl100 = _.filter(Game.creeps, (creep) => creep.memory.role == 'cl100');
     this.dH800 = _.filter(Game.creeps, (creep) => creep.memory.role == 'dH800');
@@ -102,6 +103,7 @@ const creepSpawner = {
       + ' u200:' + this.up200.length + '/' + this.numUp200
       + ' u550:' + this.up550.length + '/' + this.numUp550
       + ' u750:' + this.up750.length + '/' + this.numUp750
+      + ' u1550:' + this.up1550.length + '/' + this.numUp1550
       
       + ' cl100:' + this.cl100.length + '/' + this.numCl100
       + ' dH800:' + this.dH800.length + '/' + this.numDH800
@@ -253,6 +255,13 @@ const creepSpawner = {
       spawnError = this.spawnCreep([WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], role, role, this.targetRoom);
       this.handleSpawnError(spawnError, role);
     }
+    if (spawnError.length == null && this.up1550.length < this.numUp1550) {
+      let role = 'up1550';
+      spawnError = this.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK,
+                                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
+                                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], role, role, this.targetRoom);
+      this.handleSpawnError(spawnError, role);
+    }
     return spawnError;
   },
   
@@ -270,7 +279,7 @@ const creepSpawner = {
       let creep = Game.creeps[name];
       if (creep.memory.auto) {
         
-        if (creep.memory.role == 'up200' || creep.memory.role == 'up550' || creep.memory.role == 'up750') {
+        if (creep.memory.role == 'up200' || creep.memory.role == 'up550' || creep.memory.role == 'up750' || creep.memory.role == 'up1550') {
           roleUpgrader.run(creep);
         } else if (creep.memory.role == 'r200') {
           roleRepairer.run(creep);

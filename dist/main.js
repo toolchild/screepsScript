@@ -3,7 +3,6 @@ const statsConsole = require("statsConsole");
 const memoryHandler = require("memory-handler");
 const creepSpawner = require("creep-spawner");
 
-
 const tower1 = Game.getObjectById('587555c0ff22ce385737f1c7');
 const tower2 = Game.getObjectById('58791fd9fcfae81e151c2793');
 
@@ -34,6 +33,16 @@ const printStatsConsole = (myStats) => {
         cpuTitle: ' CPU '
       }
     ));
-    console.log(statsConsole.displayLogs(undefined, {width: 240})); // width must be greater than the longest 1 liner message
   }
+  console.log(statsConsole.displayLogs(undefined, {
+    width: 240,
+    title: null,
+    leftTopCorner: null,
+    rightTopCorner: null,
+    leftBottomCorner: null,
+    rightBottomCorner: null,
+    hBar: null,
+    vBar: null,
+    spacing: ' '
+  })); // width must be greater than the longest 1 liner message
 };
