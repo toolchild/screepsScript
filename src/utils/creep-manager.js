@@ -10,6 +10,7 @@ const roleDistanceHarvester = require('role.distance-harvester');
 const roleRepairer = require('role.repairer');
 const settings = require('settings');
 const consts = require('constants');
+const _ = require('lodash');
 
 const roomCapacity = Memory.home == null ? Game.spawns['Spawn1'].room.energyCapacityAvailable : Memory.home.room.energyCapacityAvailable;
 
@@ -186,7 +187,7 @@ const creepManager = {
   spawnMiner(spawnError){
     if (spawnError.length == null && this.m0250.length < this.numM0250) {
       let role = 'm0250';
-      spawnError = spawnCreep([WORK, WORK, MOVE], role, role, this.targetRoom);
+      spawnError = this.spawnCreep([WORK, WORK, MOVE], role, role, this.targetRoom);
       this.handleSpawnError(spawnError, role);
     }
     if (spawnError.length == null && this.m1250.length < this.numM1250) {
@@ -323,7 +324,7 @@ const creepManager = {
   getCreepStats ()  {
     // sample data format ["Name for Stat", variableForStat]
     let spacer = '                                            max: ';
-    return myStats = [
+    return[
       
       ["m0550" + spacer + this.numM0550, this.m0550.length],
       ["m1550" + spacer + this.numM1550, this.m1550.length],

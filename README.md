@@ -15,8 +15,7 @@ or add these to your gruntfile if you use grunt and start with ``grunt c`` and t
 
             files: [
               // flattens results to a single level
-              {expand: true, flatten: true, src: ['src/*' , 'src/role/*'], dest: 'dist/', filter: 'isFile'},
-            ],
+              {expand: true, flatten: true, src: ['src/*' , 'src/role/*', 'src/third-party/**', 'src/utils/**'], dest: 'dist/', filter: 'isFile'},            ],
           },
         },
 
